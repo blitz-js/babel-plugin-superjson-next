@@ -24,8 +24,7 @@ export default function Page({ products }) {
 }
       `,
       output: `
-import SuperJSON from "superjson";
-
+import _SuperJSON from 'superjson';
 export const getServerSideProps = async () => {
   const products = [
     {
@@ -33,21 +32,18 @@ export const getServerSideProps = async () => {
       publishedAt: new Date(0),
     },
   ];
-
-  return ((r) => (r.props ? ((r.props = SuperJSON.serialize(r.props)), r) : r))(
-    {
-      props: {
-        products,
-      },
-    }
-  );
+  return ((r) =>
+    r.props ? ((r.props = _SuperJSON.serialize(r.props)), r) : r)({
+    props: {
+      products,
+    },
+  });
 };
-
 export default function Page(props) {
-  let { products } = SuperJSON.deserialize(props.SuperJSON);
+  let { products } = _SuperJSON.deserialize(props.SuperJSON);
+
   return JSON.stringify(products);
-}
-      `,
+}`,
     },
 
     'transforms a valid example using class components': {
@@ -71,8 +67,7 @@ export default class Page {
 }
       `,
       output: `
-import SuperJSON from "superjson";
-
+import _SuperJSON from 'superjson';
 export const getServerSideProps = async () => {
   const products = [
     {
@@ -80,23 +75,20 @@ export const getServerSideProps = async () => {
       publishedAt: new Date(0),
     },
   ];
-
-  return ((r) => (r.props ? ((r.props = SuperJSON.serialize(r.props)), r) : r))(
-    {
-      props: {
-        products,
-      },
-    }
-  );
+  return ((r) =>
+    r.props ? ((r.props = _SuperJSON.serialize(r.props)), r) : r)({
+    props: {
+      products,
+    },
+  });
 };
-
 export default class Page {
   render(props) {
-    let { products } = SuperJSON.deserialize(props.SuperJSON);
+    let { products } = _SuperJSON.deserialize(props.SuperJSON);
+
     return JSON.stringify(products);
   }
-}
-      `,
+}`,
     },
 
     "does not change a page that doesn't export gSSP": `

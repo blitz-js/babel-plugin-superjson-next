@@ -1,44 +1,47 @@
-import { PluginObj, types, NodePath } from '@babel/core';
+import { PluginObj, types as t, NodePath } from '@babel/core';
+import { addDefault as addDefaultImport } from '@babel/helper-module-imports';
 
-function transformReturnValue(value: types.Expression): types.Expression {
-  const returnValueIdentifier = types.identifier('r');
-  const propsOfR = types.memberExpression(
+function transformReturnValue(
+  value: t.Expression,
+  superjsonIdentifier: t.Identifier
+): t.Expression {
+  const returnValueIdentifier = t.identifier('r');
+  const propsOfR = t.memberExpression(
     returnValueIdentifier,
-    types.identifier('props')
+    t.identifier('props')
   );
-  const body = types.conditionalExpression(
+  const body = t.conditionalExpression(
     propsOfR,
-    types.sequenceExpression([
-      types.assignmentExpression(
+    t.sequenceExpression([
+      t.assignmentExpression(
         '=',
         propsOfR,
-        types.callExpression(types.identifier('SuperJSON.serialize'), [
-          propsOfR,
-        ])
+        t.callExpression(
+          t.memberExpression(superjsonIdentifier, t.identifier('serialize')),
+          [propsOfR]
+        )
       ),
       returnValueIdentifier,
     ]),
     returnValueIdentifier
   );
 
-  const creatorFunction = types.arrowFunctionExpression(
+  const creatorFunction = t.arrowFunctionExpression(
     [returnValueIdentifier],
     body
   );
 
-  return types.callExpression(types.parenthesizedExpression(creatorFunction), [
-    value,
-  ]);
+  return t.callExpression(t.parenthesizedExpression(creatorFunction), [value]);
 }
 
 function transformPageFunctionComponent<
-  T extends types.FunctionDeclaration | types.ClassMethod
->(func: T): T {
+  T extends t.FunctionDeclaration | t.ClassMethod
+>(func: T, superJsonIdentifier: t.Identifier): T {
   if (func.params.length === 0) {
     return func;
   }
 
-  const newPropsParamIdentifier = types.identifier('props');
+  const newPropsParamIdentifier = t.identifier('props');
 
   const {
     params,
@@ -48,12 +51,13 @@ function transformPageFunctionComponent<
   const [oldPropsParam] = params;
   params[0] = newPropsParamIdentifier;
 
-  const deserializationLine = types.variableDeclaration('let', [
-    types.variableDeclarator(
+  const deserializationLine = t.variableDeclaration('let', [
+    t.variableDeclarator(
       oldPropsParam,
-      types.callExpression(types.identifier('SuperJSON.deserialize'), [
-        types.memberExpression(newPropsParamIdentifier, types.identifier('SuperJSON')),
-      ])
+      t.callExpression(
+        t.memberExpression(superJsonIdentifier, t.identifier('deserialize')),
+        [t.memberExpression(newPropsParamIdentifier, t.identifier('SuperJSON'))]
+      )
     ),
   ]);
 
@@ -63,19 +67,20 @@ function transformPageFunctionComponent<
 }
 
 function transformPageClassComponent(
-  component: types.ClassDeclaration
-): types.ClassDeclaration {
+  component: t.ClassDeclaration,
+  superJsonIdentifier: t.Identifier
+): t.ClassDeclaration {
   function isRenderFunction(decl: typeof component.body.body[0]): boolean {
     return (
-      types.isClassMethod(decl) &&
-      types.isIdentifier(decl.key) &&
+      t.isClassMethod(decl) &&
+      t.isIdentifier(decl.key) &&
       decl.key.name === 'render'
     );
   }
 
   component.body.body = component.body.body.map(decl => {
     if (isRenderFunction(decl)) {
-      return transformPageFunctionComponent(decl as types.ClassMethod);
+      return transformPageFunctionComponent(decl as t.ClassMethod, superJsonIdentifier);
     }
 
     return decl;
@@ -85,16 +90,16 @@ function transformPageClassComponent(
 }
 
 function isGetServerSidePropsDeclaration(
-  path: NodePath<types.ExportNamedDeclaration>
+  path: NodePath<t.ExportNamedDeclaration>
 ): boolean {
   const { declaration } = path.node;
 
-  if (!types.isVariableDeclaration(declaration)) {
+  if (!t.isVariableDeclaration(declaration)) {
     return false;
   }
 
   const [{ id, init }] = declaration.declarations;
-  if (!types.isIdentifier(id)) {
+  if (!t.isIdentifier(id)) {
     return false;
   }
 
@@ -102,35 +107,47 @@ function isGetServerSidePropsDeclaration(
     return false;
   }
 
-  return (
-    types.isArrowFunctionExpression(init) || types.isFunctionExpression(init)
-  );
+  return t.isArrowFunctionExpression(init) || t.isFunctionExpression(init);
 }
 
-function superJsonWithNext(): PluginObj {
+function addSuperJSONImport(path: NodePath<any>) {
+  return addDefaultImport(path, "superjson", {
+    nameHint: 'SuperJSON',
+  });
+}
+
+interface PluginPass {
+  superJsonName?: t.Identifier;
+}
+
+function superJsonWithNext(): PluginObj<PluginPass> {
   return {
     name: 'replace gSSP',
     visitor: {
-      ExportNamedDeclaration(path) {
+      ExportNamedDeclaration(path, pass) {
         if (isGetServerSidePropsDeclaration(path)) {
           path.traverse({
             ReturnStatement(path) {
+              if (!pass.superJsonName) {
+                pass.superJsonName = addSuperJSONImport(path);
+              }
+
               if (path.node.argument) {
-                path.node.argument = transformReturnValue(path.node.argument);
+                path.node.argument = transformReturnValue(path.node.argument, pass.superJsonName);
               }
             },
           });
         }
       },
-      ExportDefaultDeclaration(path) {
+      ExportDefaultDeclaration(path, pass) {
         const { declaration } = path.node;
 
-        if (types.isFunctionDeclaration(declaration)) {
-          path.node.declaration = transformPageFunctionComponent(declaration);
+        if (t.isFunctionDeclaration(declaration)) {
+          path.node.declaration = transformPageFunctionComponent(declaration, pass.superJsonName!);
         }
 
-        if (types.isClassDeclaration(declaration)) {
-          path.node.declaration = transformPageClassComponent(declaration);
+        if (t.isClassDeclaration(declaration)) {
+          path.node.declaration = transformPageClassComponent(declaration, pass.superJsonName!);
         }
       },
     },
