@@ -17,7 +17,9 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "superjson": "1.x"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint"
