@@ -1,6 +1,21 @@
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('boop');
-  }
-  return a + b;
-};
+import { PluginObj } from '@babel/core';
+
+function reverse(string: string): string {
+  return string
+    .split('')
+    .reverse()
+    .join('');
+}
+
+function superJsonWithNext(): PluginObj {
+  return {
+    name: 'identifier reverse',
+    visitor: {
+      Identifier(idPath) {
+        idPath.node.name = reverse(idPath.node.name);
+      },
+    },
+  };
+}
+
+export default superJsonWithNext;
