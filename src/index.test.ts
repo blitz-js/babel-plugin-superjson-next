@@ -24,26 +24,55 @@ export default function Page({ products }) {
 }
       `,
       output: `
-import _SuperJSON from 'superjson';
-export const getServerSideProps = async () => {
+import { withSuperJSONGSSP, withSuperJSONPage } from 'superjson-with-next';
+export const getServerSideProps = withSuperJSONGSSP(async () => {
   const products = [
     {
       name: 'Hat',
       publishedAt: new Date(0),
     },
   ];
-  return ((r) =>
-    r.props ? ((r.props = _SuperJSON.serialize(r.props)), r) : r)({
-    props: {
-      products,
-    },
-  });
-};
-export default function Page(props) {
-  let { products } = _SuperJSON.deserialize(props.SuperJSON);
 
+  return { props: { products } };
+});
+export default withSuperJSONPage(function Page({ products }) {
   return JSON.stringify(products);
-}`,
+})`,
+    },
+
+    'transforms a valid example using gSSP function expression': {
+      // input to the plugin
+      code: `
+export async function getServerSideProps() {
+  const products = [
+    {
+      name: 'Hat',
+      publishedAt: new Date(0)
+    }
+  ];
+
+  return { props: { products } };
+};
+
+export default function Page({ products }) {
+  return JSON.stringify(products)
+}
+      `,
+      output: `
+import { withSuperJSONGSSP, withSuperJSONPage } from 'superjson-with-next';
+export const getServerSideProps = withSuperJSONGSSP(async function getServerSideProps() {
+  const products = [
+    {
+      name: 'Hat',
+      publishedAt: new Date(0),
+    },
+  ];
+
+  return { props: { products } };
+});
+export default withSuperJSONPage(function Page({ products }) {
+  return JSON.stringify(products);
+})`,
     },
 
     'transforms a valid example using class components': {
@@ -67,28 +96,22 @@ export default class Page {
 }
       `,
       output: `
-import _SuperJSON from 'superjson';
-export const getServerSideProps = async () => {
+import { withSuperJSONGSSP, withSuperJSONPage } from 'superjson-with-next';
+export const getServerSideProps = withSuperJSONGSSP(async () => {
   const products = [
     {
       name: 'Hat',
       publishedAt: new Date(0),
     },
   ];
-  return ((r) =>
-    r.props ? ((r.props = _SuperJSON.serialize(r.props)), r) : r)({
-    props: {
-      products,
-    },
-  });
-};
-export default class Page {
-  render(props) {
-    let { products } = _SuperJSON.deserialize(props.SuperJSON);
 
+  return { props: { products } };
+});
+export default withSuperJSONPage(class Page {
+  render({ products }) {
     return JSON.stringify(products);
   }
-}`,
+})`,
     },
 
     "does not change a page that doesn't export gSSP": `
