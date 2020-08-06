@@ -71,11 +71,19 @@ function transformGetServerSideProps(
 }
 
 function addWithSuperJSONGSSPImport(path: NodePath<any>) {
-  return addNamedImport(path, 'withSuperJSONGSSP', 'superjson-with-next');
+  return addNamedImport(
+    path,
+    'withSuperJSONGSSP',
+    'babel-plugin-superjson-next/tools'
+  );
 }
 
 function addWithSuperJSONPageImport(path: NodePath<any>) {
-  return addNamedImport(path, 'withSuperJSONPage', 'superjson-with-next');
+  return addNamedImport(
+    path,
+    'withSuperJSONPage',
+    'babel-plugin-superjson-next/tools'
+  );
 }
 
 function superJsonWithNext(): PluginObj {

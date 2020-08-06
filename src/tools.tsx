@@ -1,7 +1,6 @@
 import SuperJSON from 'superjson';
-import { GetServerSideProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import React from 'react';
-import babelPlugin from './plugin';
 
 type SuperJSONResult = any;
 
@@ -25,5 +24,3 @@ export function withSuperJSONPage<P>(
     return <Page {...props} />;
   };
 }
-
-export default babelPlugin;

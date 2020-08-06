@@ -5,7 +5,8 @@
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "tool.js"
   ],
   "engines": {
     "node": ">=10"
@@ -35,7 +36,7 @@
   },
   "name": "babel-plugin-superjson-next",
   "author": "Simon Knott",
-  "module": "dist/superjson-with-next.esm.js",
+  "module": "dist/babel-plugin-superjson-next.esm.js",
   "devDependencies": {
     "@types/react": "^16.9.44",
     "babel-plugin-tester": "^9.2.0",

@@ -1,4 +1,4 @@
-import superJsonWithNext from '../src/plugin';
+import superJsonWithNext from '../src';
 import pluginTester from 'babel-plugin-tester';
 import * as path from 'path';
 

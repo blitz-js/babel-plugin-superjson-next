@@ -3,8 +3,8 @@ module.exports = {
     return {
       ...config,
       input: [
-        "src/plugin.ts",
-        "src/index.tsx"
+        "src/index.ts",
+        "src/tools.tsx"
       ],
       output: {
         ...config.output,
