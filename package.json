@@ -33,7 +33,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "superjson-with-next",
+  "name": "babel-plugin-superjson-next",
   "author": "Simon Knott",
   "module": "dist/superjson-with-next.esm.js",
   "devDependencies": {

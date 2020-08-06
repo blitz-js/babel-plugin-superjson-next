@@ -9,6 +9,7 @@
     "test": "yarn build && yarn testcafe chrome"
   },
   "dependencies": {
+    "babel-plugin-superjson-next": "file:../",
     "next": "9.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
