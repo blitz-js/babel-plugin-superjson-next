@@ -1,6 +1,6 @@
 import SuperJSON from 'superjson';
-import type { GetServerSideProps } from 'next';
-import React from "react"
+import { GetServerSideProps } from 'next';
+import React from 'react';
 
 type SuperJSONResult = any;
 
@@ -11,16 +11,18 @@ export function withSuperJSONGSSP<P>(
     const result = await gssp(...args);
     return {
       ...result,
-      props: SuperJSON.serialize(result.props as any)
-    }
+      props: SuperJSON.serialize(result.props as any),
+    };
   };
 }
 
-export function withSuperJSONPage<P>(Page: React.ComponentType<P>): React.ComponentType<SuperJSONResult> {
+export function withSuperJSONPage<P>(
+  Page: React.ComponentType<P>
+): React.ComponentType<SuperJSONResult> {
   return function WithSuperJSON(serializedProps) {
-    const props = SuperJSON.deserialize(serializedProps) as unknown as P;
-    return <Page {...props} />
-  }
+    const props = (SuperJSON.deserialize(serializedProps) as unknown) as P;
+    return <Page {...props} />;
+  };
 }
 
 export default {

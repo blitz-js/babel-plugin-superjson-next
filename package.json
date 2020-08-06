@@ -38,6 +38,7 @@
   "module": "dist/superjson-with-next.esm.js",
   "devDependencies": {
     "@types/react": "^16.9.44",
+    "babel-plugin-tester": "^9.2.0",
     "husky": "^4.2.5",
     "next": "^9.5.1",
     "react": "^16.13.1",
@@ -48,7 +49,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.11.0",
-    "@babel/helper-module-imports": "^7.10.4",
-    "babel-plugin-tester": "^9.2.0"
+    "@babel/helper-module-imports": "^7.10.4"
   }
 }

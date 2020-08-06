@@ -5,16 +5,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "yarn build && yarn testcafe chrome"
   },
   "dependencies": {
     "next": "9.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "superjson": "^1.1.0",
-    "superjson-with-next": "file:../../"
+    "superjson-with-next": "file:../"
   },
   "devDependencies": {
-    "@types/react": "^16.9.44"
+    "@types/react": "^16.9.44",
+    "testcafe": "^1.8.8"
   }
 }

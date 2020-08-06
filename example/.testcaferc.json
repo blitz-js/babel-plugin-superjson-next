@@ -1,0 +1,4 @@
+{
+    "appCommand": "yarn start",
+    "appInitDelay": 2000
+}
