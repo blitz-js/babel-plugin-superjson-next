@@ -40,3 +40,11 @@ jobs:
         run: yarn build
         env:
           CI: true
+
+      - name: Install dependencies for Example
+        run: yarn
+        working-directory: ./example
+
+      - name: Test Example
+        run: yarn test
+        working-directory: ./example
