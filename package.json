@@ -18,6 +18,8 @@
     "prepare": "tsdx build"
   },
   "peerDependencies": {
+    "next": "^9.5.1",
+    "react": "^16.13.1",
     "superjson": "1.x"
   },
   "husky": {
@@ -35,7 +37,11 @@
   "author": "Simon Knott",
   "module": "dist/superjson-with-next.esm.js",
   "devDependencies": {
+    "@types/react": "^16.9.44",
     "husky": "^4.2.5",
+    "next": "^9.5.1",
+    "react": "^16.13.1",
+    "superjson": "^1.1.0",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
