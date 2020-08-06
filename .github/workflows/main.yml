@@ -17,9 +17,17 @@ jobs:
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: nodeModules-${{ hashFiles('**/yarn.lock') }}
+          key: nodeModules-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             nodeModules-
+
+      - name: Use cached examples/node_modules
+        uses: actions/cache@v1
+        with:
+          path: example/node_modules
+          key: example-nodeModules-${{ hashFiles('example/yarn.lock') }}
+          restore-keys: |
+            example-nodeModules-
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
