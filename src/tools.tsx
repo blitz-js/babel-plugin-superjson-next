@@ -4,7 +4,7 @@ import React from 'react';
 
 type SuperJSONResult = any;
 
-export function withSuperJSONGSSP<P>(
+export function withSuperJSONProps<P>(
   gssp: GetServerSideProps<P>
 ): GetServerSideProps<SuperJSONResult> {
   return async function withSuperJSON(...args) {

@@ -77,10 +77,10 @@ function transformPropGetters(
   }
 }
 
-function addWithSuperJSONGSSPImport(path: NodePath<any>) {
+function addWithSuperJSONPropsImport(path: NodePath<any>) {
   return addNamedImport(
     path,
-    'withSuperJSONGSSP',
+    'withSuperJSONProps',
     'babel-plugin-superjson-next/tools'
   );
 }
@@ -109,7 +109,9 @@ function superJsonWithNext(): PluginObj {
           ExportNamedDeclaration(path) {
             transformPropGetters(path, (decl) => {
               foundGSSP = true;
-              return t.callExpression(addWithSuperJSONGSSPImport(path), [decl]);
+              return t.callExpression(addWithSuperJSONPropsImport(path), [
+                decl,
+              ]);
             });
           },
         });

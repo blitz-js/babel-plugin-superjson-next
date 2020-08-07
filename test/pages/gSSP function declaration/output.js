@@ -1,6 +1,6 @@
 import { withSuperJSONPage as _withSuperJSONPage } from 'babel-plugin-superjson-next/tools';
-import { withSuperJSONGSSP as _withSuperJSONGSSP } from 'babel-plugin-superjson-next/tools';
-export const getServerSideProps = _withSuperJSONGSSP(
+import { withSuperJSONProps as _withSuperJSONProps } from 'babel-plugin-superjson-next/tools';
+export const getServerSideProps = _withSuperJSONProps(
   async function getServerSideProps() {
     const products = [
       {
