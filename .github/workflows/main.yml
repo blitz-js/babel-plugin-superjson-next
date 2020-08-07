@@ -53,6 +53,11 @@ jobs:
         run: yarn
         working-directory: ./example
 
-      - name: Test Example
-        run: yarn test
+      - name: Build Example
+        run: yarn build
         working-directory: ./example
+
+      - name: Run tests
+        uses: DevExpress/testcafe-action@latest
+        with:
+          args: "chrome example/tests --app 'yarn --cwd example start'"
