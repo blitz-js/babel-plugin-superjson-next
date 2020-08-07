@@ -40,8 +40,10 @@
   "devDependencies": {
     "@types/react": "^16.9.44",
     "babel-plugin-tester": "^9.2.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
     "next": "^9.5.1",
+    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "superjson": "^1.1.0",
     "tsdx": "^0.13.2",

@@ -58,7 +58,7 @@ function transformGetServerSideProps(
   }
 
   if (t.isVariableDeclaration(node.declaration)) {
-    node.declaration.declarations.forEach(declaration => {
+    node.declaration.declarations.forEach((declaration) => {
       if (
         t.isIdentifier(declaration.id) &&
         declaration.id.name === 'getServerSideProps' &&
@@ -100,7 +100,7 @@ function superJsonWithNext(): PluginObj {
 
         path.traverse({
           ExportNamedDeclaration(path) {
-            transformGetServerSideProps(path, decl => {
+            transformGetServerSideProps(path, (decl) => {
               foundGSSP = true;
               return t.callExpression(addWithSuperJSONGSSPImport(path), [decl]);
             });
