@@ -36,20 +36,27 @@ function getFileName(path: NodePath<any>) {
   return filename;
 }
 
-function transformGetServerSideProps(
+const functionsToReplace = ['getServerSideProps', 'getStaticProps'];
+
+function transformPropGetters(
   path: NodePath<t.ExportNamedDeclaration>,
   transform: (v: t.Expression) => t.Expression
 ) {
   const { node } = path;
 
   if (t.isFunctionDeclaration(node.declaration)) {
-    if (node.declaration.id?.name !== 'getServerSideProps') {
+    const { id: functionId } = node.declaration;
+    if (!functionId) {
+      return;
+    }
+
+    if (!functionsToReplace.includes(functionId.name)) {
       return;
     }
 
     node.declaration = t.variableDeclaration('const', [
       t.variableDeclarator(
-        t.identifier('getServerSideProps'),
+        functionId,
         transform(functionDeclarationToExpression(node.declaration))
       ),
     ]);
@@ -61,7 +68,7 @@ function transformGetServerSideProps(
     node.declaration.declarations.forEach((declaration) => {
       if (
         t.isIdentifier(declaration.id) &&
-        declaration.id.name === 'getServerSideProps' &&
+        functionsToReplace.includes(declaration.id.name) &&
         declaration.init
       ) {
         declaration.init = transform(declaration.init);
@@ -100,7 +107,7 @@ function superJsonWithNext(): PluginObj {
 
         path.traverse({
           ExportNamedDeclaration(path) {
-            transformGetServerSideProps(path, (decl) => {
+            transformPropGetters(path, (decl) => {
               foundGSSP = true;
               return t.callExpression(addWithSuperJSONGSSPImport(path), [decl]);
             });
