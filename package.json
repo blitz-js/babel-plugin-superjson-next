@@ -1,5 +1,5 @@
 {
-  "version": "0.1.3-danger-1599721110",
+  "version": "0.1.3-danger-1599722284",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -12,11 +12,9 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "build": "tsc",
+    "test": "jest",
+    "prepare": "yarn build"
   },
   "peerDependencies": {
     "next": "^9.5.1",
@@ -43,10 +41,12 @@
     "babel-plugin-tester": "^9.2.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
+    "jest": "^26.4.2",
     "next": "^9.5.1",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "superjson": "^1.1.0",
+    "ts-jest": "^26.3.0",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.7"
