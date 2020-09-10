@@ -1,6 +1,6 @@
 import SuperJSON from 'superjson';
 import type { GetServerSideProps } from 'next';
-import React from 'react';
+import * as React from 'react';
 
 type SuperJSONResult = any;
 
@@ -19,7 +19,7 @@ export function withSuperJSONProps<P>(
 export function withSuperJSONPage<P>(
   Page: React.ComponentType<P>
 ): React.ComponentType<SuperJSONResult> {
-  return function WithSuperJSON(serializedProps) {
+  return function WithSuperJSON(serializedProps: any) {
     const props = (SuperJSON.deserialize(serializedProps) as unknown) as P;
     return <Page {...props} />;
   };
