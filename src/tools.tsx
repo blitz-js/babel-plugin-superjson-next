@@ -9,9 +9,17 @@ export function withSuperJSONProps<P>(
 ): GetServerSideProps<SuperJSONResult> {
   return async function withSuperJSON(...args) {
     const result = await gssp(...args);
+    const { json, meta } = SuperJSON.serialize(result.props as any)
+    
+    const props: SuperJSONResult = { json }
+
+    if (Boolean(meta)) {
+      props.meta = meta
+    }
+    
     return {
       ...result,
-      props: SuperJSON.serialize(result.props as any),
+      props
     };
   };
 }
