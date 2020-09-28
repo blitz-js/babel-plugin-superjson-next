@@ -20,7 +20,7 @@ function classDeclarationToExpression(declaration: t.ClassDeclaration) {
   );
 }
 
-function getFileName(path: NodePath<any>) {
+function getFileName(path: NodePath<t.Program>) {
   const { file = {} } = path.hub;
 
   const { opts = {} } = file;
