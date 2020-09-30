@@ -1,6 +1,6 @@
 {
   "projectName": "babel-plugin-superjson-next",
-  "projectOwner": "skn0tt",
+  "projectOwner": "blitz-js",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
@@ -32,7 +32,19 @@
         "ideas",
         "talk"
       ]
+    },
+    {
+      "login": "ntgussoni",
+      "name": "Nicolas Torres",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/10161067?v=4",
+      "profile": "https://github.com/ntgussoni",
+      "contributions": [
+        "code",
+        "test",
+        "bug"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }

@@ -11,7 +11,7 @@
 
 <p align="center">
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square" alt="All Contributors"/></a>
+<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square" alt="All Contributors"/></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <a href="https://www.npmjs.com/package/otion">
     <img alt="npm" src="https://img.shields.io/npm/v/babel-plugin-superjson-next" />
@@ -59,8 +59,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Skn0tt"><img src="https://avatars1.githubusercontent.com/u/14912729?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Simon Knott</b></sub></a><br /><a href="https://github.com/skn0tt/babel-plugin-superjson-next/commits?author=Skn0tt" title="Code">💻</a> <a href="#video-Skn0tt" title="Videos">📹</a> <a href="#ideas-Skn0tt" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-Skn0tt" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="https://twitter.com/flybayer"><img src="https://avatars3.githubusercontent.com/u/8813276?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brandon Bayer</b></sub></a><br /><a href="#ideas-flybayer" title="Ideas, Planning, & Feedback">🤔</a> <a href="#talk-flybayer" title="Talks">📢</a></td>
+    <td align="center"><a href="https://github.com/Skn0tt"><img src="https://avatars1.githubusercontent.com/u/14912729?v=4" width="100px;" alt=""/><br /><sub><b>Simon Knott</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=Skn0tt" title="Code">💻</a> <a href="#video-Skn0tt" title="Videos">📹</a> <a href="#ideas-Skn0tt" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-Skn0tt" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://twitter.com/flybayer"><img src="https://avatars3.githubusercontent.com/u/8813276?v=4" width="100px;" alt=""/><br /><sub><b>Brandon Bayer</b></sub></a><br /><a href="#ideas-flybayer" title="Ideas, Planning, & Feedback">🤔</a> <a href="#talk-flybayer" title="Talks">📢</a></td>
+    <td align="center"><a href="https://github.com/ntgussoni"><img src="https://avatars0.githubusercontent.com/u/10161067?v=4" width="100px;" alt=""/><br /><sub><b>Nicolas Torres</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=ntgussoni" title="Code">💻</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=ntgussoni" title="Tests">⚠️</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Antgussoni" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
