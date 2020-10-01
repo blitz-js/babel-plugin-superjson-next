@@ -1,4 +1,4 @@
-import { PluginObj, types as t, NodePath } from '@babel/core';
+import { PluginObj, types as t, NodePath, PluginPass } from '@babel/core';
 import { addNamed as addNamedImport } from '@babel/helper-module-imports';
 
 function functionDeclarationToExpression(declaration: t.FunctionDeclaration) {
@@ -20,11 +20,9 @@ function classDeclarationToExpression(declaration: t.ClassDeclaration) {
   );
 }
 
-function getFileName(path: NodePath<t.Program>) {
-  const { file = {} } = path.hub;
+function getFileName(state: PluginPass) {
+  const { filename, cwd } = state;
 
-  const { opts = {} } = file;
-  const { filename, cwd } = opts as { filename?: string; cwd?: string };
   if (!filename) {
     return undefined;
   }
@@ -97,8 +95,8 @@ function superJsonWithNext(): PluginObj {
   return {
     name: 'replace gSSP',
     visitor: {
-      Program(path) {
-        const filename = getFileName(path) ?? 'pages/Default.js';
+      Program(path, state) {
+        const filename = getFileName(state) ?? 'pages/Default.js';
         if (!filename.includes('pages/')) {
           return;
         }
