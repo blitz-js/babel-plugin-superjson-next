@@ -10,17 +10,17 @@ export function withSuperJSONProps<P>(
 ): GetServerSideProps<SuperJSONResult> {
   return async function withSuperJSON(...args) {
     const result = await gssp(...args);
-    const { json, meta } = SuperJSON.serialize(result.props)
+    const { json, meta } = SuperJSON.serialize(result.props);
 
-    const props: SuperJSONResult = { json }
+    const props: SuperJSONResult = { json };
 
     if (Boolean(meta)) {
-      props.meta = meta
+      props.meta = meta;
     }
 
     return {
       ...result,
-      props
+      props,
     };
   };
 }
@@ -29,6 +29,11 @@ export function withSuperJSONPage<P>(
   Page: React.ComponentType<P>
 ): React.ComponentType<SuperJSONResult> {
   function WithSuperJSON(serializedProps: SuperJSONResult) {
+    if (!serializedProps.json) {
+      const PageWithoutProps = Page as React.ComponentType<{}>;
+      return <PageWithoutProps />;
+    }
+    
     const props = SuperJSON.deserialize<P>(serializedProps);
     return <Page {...props} />;
   }
