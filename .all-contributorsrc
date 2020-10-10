@@ -63,6 +63,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "alexrohleder",
+      "name": "Alex Rohleder",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7248028?v=4",
+      "profile": "https://github.com/alexrohleder",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
