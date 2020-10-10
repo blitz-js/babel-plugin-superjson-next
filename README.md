@@ -11,7 +11,7 @@
 
 <p align="center">
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square" alt="All Contributors"/></a>
+<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square" alt="All Contributors"/></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <a href="https://www.npmjs.com/package/otion">
     <img alt="npm" src="https://img.shields.io/npm/v/babel-plugin-superjson-next" />
@@ -64,6 +64,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/ntgussoni"><img src="https://avatars0.githubusercontent.com/u/10161067?v=4" width="100px;" alt=""/><br /><sub><b>Nicolas Torres</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=ntgussoni" title="Code">💻</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=ntgussoni" title="Tests">⚠️</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Antgussoni" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://www.benjaminjohnson.me"><img src="https://avatars1.githubusercontent.com/u/20060118?v=4" width="100px;" alt=""/><br /><sub><b>Benjamin Johnson</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=Benjamminj" title="Code">💻</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=Benjamminj" title="Tests">⚠️</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3ABenjamminj" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/jorisre"><img src="https://avatars1.githubusercontent.com/u/7545547?v=4" width="100px;" alt=""/><br /><sub><b>Joris</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=jorisre" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/alexrohleder"><img src="https://avatars2.githubusercontent.com/u/7248028?v=4" width="100px;" alt=""/><br /><sub><b>Alex Rohleder</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Aalexrohleder" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
