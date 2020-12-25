@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  Automatically transform your Next.js Pages to use SuperJSON.
+  Automatically transform your Next.js Pages to use <a href="https://github.com/blitz-js/superjson">SuperJSON</a>.
   Supports <code>getStaticProps</code> & <code>getServerSideProps</code>.
 </p>
 
