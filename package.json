@@ -50,8 +50,8 @@
   },
   "peerDependencies": {
     "@babel/core": "7.X",
-    "next": "9.X",
-    "react": "16.X",
+    "next": ">=9.0.0",
+    "react": ">=16.X",
     "superjson": "1.x"
   },
   "dependencies": {
