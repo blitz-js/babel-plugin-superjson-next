@@ -76,6 +76,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://cyr.us/"><img src="https://avatars3.githubusercontent.com/u/19656?v=4" width="100px;" alt=""/><br /><sub><b>Cyrus</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Acyrus" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://gabeoleary.com"><img src="https://avatars1.githubusercontent.com/u/16123225?v=4" width="100px;" alt=""/><br /><sub><b>Gabe O'Leary</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Agoleary" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
