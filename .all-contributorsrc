@@ -81,6 +81,15 @@
       "contributions": [
         "question"
       ]
+    },
+    {
+      "login": "jlmodell",
+      "name": "jlmodell",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/48035911?v=4",
+      "profile": "https://github.com/jlmodell",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
