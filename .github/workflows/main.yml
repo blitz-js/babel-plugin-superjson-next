@@ -42,5 +42,5 @@ jobs:
         run: yarn build
         working-directory: ./example
 
-      - Name: Run integration tests
+      - name: Run integration tests
         run: yarn testcafe chrome tests --app "yarn start"
