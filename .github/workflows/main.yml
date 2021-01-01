@@ -26,6 +26,7 @@ jobs:
 
       - name: Use cached node_modules
         uses: actions/cache@v1
+        if: false
         with:
           path: node_modules
           key: nodeModules-${{ hashFiles('yarn.lock') }}
@@ -34,6 +35,7 @@ jobs:
 
       - name: Use cached examples/node_modules
         uses: actions/cache@v1
+        if: false
         with:
           path: example/node_modules
           key: example-nodeModules-${{ hashFiles('example/yarn.lock') }}
