@@ -38,10 +38,6 @@ jobs:
         run: yarn
         working-directory: ./example
 
-      - name: Build Example
-        run: yarn build
-        working-directory: ./example
-
       - name: Run integration tests
-        run: yarn testcafe chrome tests --app "yarn start"
+        run: yarn test
         working-directory: ./example
