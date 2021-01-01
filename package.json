@@ -32,7 +32,6 @@
   "author": "Simon Knott",
   "module": "dist/babel-plugin-superjson-next.esm.js",
   "devDependencies": {
-    "@babel/core": "^7.11.6",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/react": "^16.9.44",
     "all-contributors-cli": "^6.17.0",
@@ -49,7 +48,6 @@
     "typescript": "^3.9.7"
   },
   "peerDependencies": {
-    "@babel/core": "7.X",
     "next": ">=9.0.0",
     "react": ">=16.X",
     "superjson": "1.x"
