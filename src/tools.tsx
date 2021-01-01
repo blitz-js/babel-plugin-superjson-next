@@ -10,6 +10,11 @@ export function withSuperJSONProps<P>(
 ): GetServerSideProps<SuperJSONResult> {
   return async function withSuperJSON(...args) {
     const result = await gssp(...args);
+
+    if (!('props' in result)) {
+      return result;
+    }
+
     const { json, meta } = SuperJSON.serialize(result.props);
 
     const props: SuperJSONResult = { json };
@@ -33,7 +38,7 @@ export function withSuperJSONPage<P>(
       const PageWithoutProps = Page as React.ComponentType<{}>;
       return <PageWithoutProps />;
     }
-    
+
     const props = SuperJSON.deserialize<P>(serializedProps);
     return <Page {...props} />;
   }
