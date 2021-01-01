@@ -83,6 +83,24 @@
       ]
     },
     {
+      "login": "cyrus",
+      "name": "Cyrus",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/19656?v=4",
+      "profile": "https://cyr.us/",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "goleary",
+      "name": "Gabe O'Leary",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16123225?v=4",
+      "profile": "http://gabeoleary.com",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
       "login": "jlmodell",
       "name": "jlmodell",
       "avatar_url": "https://avatars1.githubusercontent.com/u/48035911?v=4",
