@@ -30,7 +30,14 @@
 Install the library with your package manager of choice, e.g.:
 
 ```
-yarn add -D babel-plugin-superjson-next
+npm install babel-plugin-superjson-next
+```
+
+Since this is a companion to [SuperJSON](https://github.com/blitz-js/superjson),
+make sure it's also installed:
+
+```
+npm install superjson
 ```
 
 Add the plugin to your `.babelrc`.
