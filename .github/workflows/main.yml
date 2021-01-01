@@ -24,43 +24,17 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Use cached node_modules
-        uses: actions/cache@v1
-        if: false
-        with:
-          path: node_modules
-          key: nodeModules-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            nodeModules-
-
-      - name: Use cached examples/node_modules
-        uses: actions/cache@v1
-        if: false
-        with:
-          path: example/node_modules
-          key: example-nodeModules-${{ hashFiles('example/yarn.lock') }}
-          restore-keys: |
-            example-nodeModules-
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        env:
-          CI: true
 
       - name: Lint
         run: yarn lint
-        env:
-          CI: true
 
       - name: Test
         run: yarn test --ci --coverage --maxWorkers=2
-        env:
-          CI: true
 
       - name: Build
         run: yarn build
-        env:
-          CI: true
 
       - name: Install dependencies for Example
         run: yarn
