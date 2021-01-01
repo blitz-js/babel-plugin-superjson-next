@@ -3,7 +3,6 @@ on: pull_request
 
 jobs:
   build:
-
     strategy:
       matrix:
         os:
@@ -14,13 +13,13 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Begin CI...
-        uses: actions/checkout@v2
-
       - name: Install Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
+      - name: Begin CI...
+        uses: actions/checkout@v2
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
