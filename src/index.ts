@@ -1,5 +1,6 @@
 import { PluginObj, types as t, NodePath, PluginPass } from '@babel/core';
 import { addNamed as addNamedImport } from '@babel/helper-module-imports';
+import * as nodePath from 'path';
 
 function functionDeclarationToExpression(declaration: t.FunctionDeclaration) {
   return t.functionExpression(
@@ -96,8 +97,9 @@ function superJsonWithNext(): PluginObj {
     name: 'replace gSSP',
     visitor: {
       Program(path, state) {
-        const filename = getFileName(state) ?? 'pages/Default.js';
-        if (!filename.includes('pages/')) {
+        const filename =
+          getFileName(state) ?? nodePath.join('pages', 'Default.js');
+        if (!filename.includes('pages' + nodePath.sep)) {
           return;
         }
 
