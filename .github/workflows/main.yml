@@ -1,17 +1,28 @@
 name: CI
 on: [push, pull_request]
+
+strategy:
+  matrix:
+    os:
+      - windows-latest
+      - ubuntu-latest
+    node:
+      - 12
+      - 14
+      - 15
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Begin CI...
         uses: actions/checkout@v2
 
-      - name: Use Node 12
+      - name: Install Node
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: ${{ matrix.node }}
 
       - name: Use cached node_modules
         uses: actions/cache@v1
