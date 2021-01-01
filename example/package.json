@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "babel-plugin-superjson-next": "file:../",
-    "next": "9.5.4",
+    "next": "^10.0.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "superjson": "^1.1.0"
+    "superjson": "^1.4.1"
   },
   "devDependencies": {
     "@types/react": "^16.9.44",
