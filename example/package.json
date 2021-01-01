@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "@types/react": "^16.9.44",
-    "testcafe": "^1.8.8"
+    "testcafe": "^1.10.1"
   }
 }

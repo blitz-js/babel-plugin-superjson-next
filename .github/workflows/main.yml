@@ -1,63 +1,46 @@
 name: CI
-on: [push, pull_request]
+on: pull_request
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+        node:
+          - 14
+    runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
       - name: Begin CI...
         uses: actions/checkout@v2
 
-      - name: Use Node 12
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-
-      - name: Use cached node_modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: nodeModules-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            nodeModules-
-
-      - name: Use cached examples/node_modules
-        uses: actions/cache@v1
-        with:
-          path: example/node_modules
-          key: example-nodeModules-${{ hashFiles('example/yarn.lock') }}
-          restore-keys: |
-            example-nodeModules-
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        env:
-          CI: true
 
       - name: Lint
         run: yarn lint
-        env:
-          CI: true
 
       - name: Test
         run: yarn test --ci --coverage --maxWorkers=2
-        env:
-          CI: true
 
       - name: Build
         run: yarn build
-        env:
-          CI: true
 
       - name: Install dependencies for Example
         run: yarn
         working-directory: ./example
 
-      - name: Build Example
+      - name: Build example
         run: yarn build
         working-directory: ./example
 
-      - name: Run tests
-        uses: DevExpress/testcafe-action@latest
-        with:
-          args: "chrome example/tests --app 'yarn --cwd example start'"
+      - name: Run integration tests
+        run: yarn testcafe chrome:headless
+        working-directory: ./example
