@@ -37,6 +37,10 @@ jobs:
         run: yarn
         working-directory: ./example
 
+      - name: Build example
+        run: yarn build
+        working-directory: ./example
+
       - name: Run integration tests
-        run: yarn test
+        run: yarn testcafe chrome:headless
         working-directory: ./example
