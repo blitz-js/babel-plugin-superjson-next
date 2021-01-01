@@ -81,6 +81,15 @@
       "contributions": [
         "question"
       ]
+    },
+    {
+      "login": "goleary",
+      "name": "Gabe O'Leary",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16123225?v=4",
+      "profile": "http://gabeoleary.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
