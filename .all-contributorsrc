@@ -81,6 +81,15 @@
       "contributions": [
         "question"
       ]
+    },
+    {
+      "login": "cyrus",
+      "name": "Cyrus",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/19656?v=4",
+      "profile": "https://cyr.us/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
