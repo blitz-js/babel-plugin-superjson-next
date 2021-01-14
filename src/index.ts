@@ -46,11 +46,11 @@ function transformPropGetters(
   if (t.isFunctionDeclaration(node.declaration)) {
     const { id: functionId } = node.declaration;
     if (!functionId) {
-      return false;
+      return;
     }
 
     if (!functionsToReplace.includes(functionId.name)) {
-      return false;
+      return;
     }
 
     node.declaration = t.variableDeclaration('const', [
@@ -60,7 +60,7 @@ function transformPropGetters(
       ),
     ]);
 
-    return true;
+    return;
   }
 
   if (t.isVariableDeclaration(node.declaration)) {
@@ -74,8 +74,6 @@ function transformPropGetters(
       }
     });
   }
-
-  return true;
 }
 
 function addWithSuperJSONPropsImport(path: NodePath<any>) {
@@ -143,16 +141,21 @@ function superJsonWithNext(): PluginObj {
 
         const body = path.get('body');
 
-        const exportNamedDeclaration = body.find((path) =>
-          t.isExportNamedDeclaration(path)
-        ) as NodePath<t.ExportNamedDeclaration> | undefined;
-        if (!exportNamedDeclaration) {
-          return;
-        }
+        let foundGSSP = false;
 
-        const foundGSSP = transformPropGetters(exportNamedDeclaration, (decl) =>
-          t.callExpression(addWithSuperJSONPropsImport(path), [decl])
-        );
+        body
+          .filter((path) => t.isExportNamedDeclaration(path))
+          .forEach((path) => {
+            transformPropGetters(
+              path as NodePath<t.ExportNamedDeclaration>,
+              (decl) => {
+                foundGSSP = true;
+                return t.callExpression(addWithSuperJSONPropsImport(path), [
+                  decl,
+                ]);
+              }
+            );
+          });
         if (!foundGSSP) {
           return;
         }
