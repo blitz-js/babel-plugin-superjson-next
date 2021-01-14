@@ -46,11 +46,11 @@ function transformPropGetters(
   if (t.isFunctionDeclaration(node.declaration)) {
     const { id: functionId } = node.declaration;
     if (!functionId) {
-      return;
+      return false;
     }
 
     if (!functionsToReplace.includes(functionId.name)) {
-      return;
+      return false;
     }
 
     node.declaration = t.variableDeclaration('const', [
@@ -60,7 +60,7 @@ function transformPropGetters(
       ),
     ]);
 
-    return;
+    return true;
   }
 
   if (t.isVariableDeclaration(node.declaration)) {
@@ -74,6 +74,8 @@ function transformPropGetters(
       }
     });
   }
+
+  return true;
 }
 
 function addWithSuperJSONPropsImport(path: NodePath<any>) {
@@ -92,6 +94,42 @@ function addWithSuperJSONPageImport(path: NodePath<any>) {
   );
 }
 
+function wrapExportDefaultDeclaration(path: NodePath<any>) {
+  function wrapInHOC(expr: t.Expression): t.Expression {
+    return t.callExpression(addWithSuperJSONPageImport(path), [expr]);
+  }
+
+  const { node } = path;
+
+  if (t.isIdentifier(node.declaration)) {
+    node.declaration = wrapInHOC(node.declaration);
+  }
+
+  if (t.isFunctionExpression(node.declaration)) {
+    node.declaration = wrapInHOC(node.declaration);
+  }
+
+  if (
+    t.isFunctionDeclaration(node.declaration) ||
+    t.isClassDeclaration(node.declaration)
+  ) {
+    if (node.declaration.id) {
+      path.insertBefore(node.declaration);
+      node.declaration = wrapInHOC(node.declaration.id);
+    } else {
+      if (t.isFunctionDeclaration(node.declaration)) {
+        node.declaration = wrapInHOC(
+          functionDeclarationToExpression(node.declaration)
+        );
+      } else {
+        node.declaration = wrapInHOC(
+          classDeclarationToExpression(node.declaration)
+        );
+      }
+    }
+  }
+}
+
 function superJsonWithNext(): PluginObj {
   return {
     name: 'replace gSSP',
@@ -103,60 +141,30 @@ function superJsonWithNext(): PluginObj {
           return;
         }
 
-        let foundGSSP = false;
+        const body = path.get('body');
 
-        path.traverse({
-          ExportNamedDeclaration(path) {
-            transformPropGetters(path, (decl) => {
-              foundGSSP = true;
-              return t.callExpression(addWithSuperJSONPropsImport(path), [
-                decl,
-              ]);
-            });
-          },
-        });
-
-        if (foundGSSP) {
-          path.traverse({
-            ExportDefaultDeclaration(path) {
-              function wrapInHOC(expr: t.Expression): t.Expression {
-                return t.callExpression(addWithSuperJSONPageImport(path), [
-                  expr,
-                ]);
-              }
-
-              const { node } = path;
-
-              if (t.isIdentifier(node.declaration)) {
-                node.declaration = wrapInHOC(node.declaration);
-              }
-
-              if (t.isFunctionExpression(node.declaration)) {
-                node.declaration = wrapInHOC(node.declaration);
-              }
-
-              if (
-                t.isFunctionDeclaration(node.declaration) ||
-                t.isClassDeclaration(node.declaration)
-              ) {
-                if (node.declaration.id) {
-                  path.insertBefore(node.declaration);
-                  node.declaration = wrapInHOC(node.declaration.id);
-                } else {
-                  if (t.isFunctionDeclaration(node.declaration)) {
-                    node.declaration = wrapInHOC(
-                      functionDeclarationToExpression(node.declaration)
-                    );
-                  } else {
-                    node.declaration = wrapInHOC(
-                      classDeclarationToExpression(node.declaration)
-                    );
-                  }
-                }
-              }
-            },
-          });
+        const exportNamedDeclaration = body.find((path) =>
+          t.isExportNamedDeclaration(path)
+        ) as NodePath<t.ExportNamedDeclaration> | undefined;
+        if (!exportNamedDeclaration) {
+          return;
         }
+
+        const foundGSSP = transformPropGetters(exportNamedDeclaration, (decl) =>
+          t.callExpression(addWithSuperJSONPropsImport(path), [decl])
+        );
+        if (!foundGSSP) {
+          return;
+        }
+
+        const exportDefaultDeclaration = body.find((path) =>
+          t.isExportDefaultDeclaration(path)
+        );
+        if (!exportDefaultDeclaration) {
+          return;
+        }
+
+        wrapExportDefaultDeclaration(exportDefaultDeclaration);
       },
     },
   };
