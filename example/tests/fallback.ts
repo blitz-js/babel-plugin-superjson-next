@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 
-fixture`Fallback`.page`http://localhost:3000/fallback/hello`;
+fixture`Fallback`.page`http://localhost:3099/fallback/hello`;
 
 test('Date is preserved', async (t) => {
   const result = Selector('#__next');

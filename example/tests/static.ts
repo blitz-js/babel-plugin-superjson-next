@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 
-fixture`Static`.page`http://localhost:3000/static`;
+fixture`Static`.page`http://localhost:3099/static`;
 
 test('Date is preserved', async (t) => {
   const result = Selector('#__next');

@@ -43,14 +43,12 @@ npm install superjson
 Add the plugin to your `.babelrc`.
 If you don't have one, create it.
 
-
 ```json5
 {
-  "presets": ["next/babel"],
-  "plugins": [
-    ...
-    "superjson-next" // 👈
-  ]
+  presets: ['next/babel'],
+  plugins: [
+    ...'superjson-next', // 👈
+  ],
 }
 ```
 
@@ -58,9 +56,22 @@ That's it! Now you're free to use all values and type supported by SuperJSON in 
 
 <!-- Potential new section: how it works -->
 
+## Contributing
+
+1. Clone the repo
+1. `yarn`
+1. `yarn build`
+
+### Test Example App
+
+1. `cd example`
+2. `yarn` (make sure you first run `yarn build` in the repo root)
+3. `yarn test`
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

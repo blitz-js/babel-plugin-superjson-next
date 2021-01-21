@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 
-fixture`gSP Arrow`.page`http://localhost:3000/gsp-arrow`;
+fixture`gSP Arrow`.page`http://localhost:3099/gsp-arrow`;
 
 test('Date is preserved', async (t) => {
   const result = Selector('#__next');

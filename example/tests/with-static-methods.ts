@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 
-fixture`With Static Methods`.page`http://localhost:3000/with-static-methods`;
+fixture`With Static Methods`.page`http://localhost:3099/with-static-methods`;
 
 test('Static methods are preserved', async (t) => {
   const result = Selector('#__next');
