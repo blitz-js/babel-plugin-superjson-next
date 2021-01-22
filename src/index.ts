@@ -128,9 +128,22 @@ function wrapExportDefaultDeclaration(path: NodePath<any>) {
   }
 }
 
+const filesToSkip = ([] as string[]).concat(
+  ...['_app', '_document', '_error'].map((name) => [
+    name + '.js',
+    name + '.jsx',
+    name + '.ts',
+    name + '.tsx',
+  ])
+);
+
+function shouldBeSkipped(file: string) {
+  return filesToSkip.some((fileToSkip) => file.includes(fileToSkip));
+}
+
 function superJsonWithNext(): PluginObj {
   return {
-    name: 'replace gSSP',
+    name: 'add superjson to pages with prop getters',
     visitor: {
       Program(path, state) {
         const filename =
@@ -139,9 +152,11 @@ function superJsonWithNext(): PluginObj {
           return;
         }
 
-        const body = path.get('body');
+        if (shouldBeSkipped(filename)) {
+          return;
+        }
 
-        let foundGSSP = false;
+        const body = path.get('body');
 
         body
           .filter((path) => t.isExportNamedDeclaration(path))
@@ -149,16 +164,12 @@ function superJsonWithNext(): PluginObj {
             transformPropGetters(
               path as NodePath<t.ExportNamedDeclaration>,
               (decl) => {
-                foundGSSP = true;
                 return t.callExpression(addWithSuperJSONPropsImport(path), [
                   decl,
                 ]);
               }
             );
           });
-        if (!foundGSSP) {
-          return;
-        }
 
         const exportDefaultDeclaration = body.find((path) =>
           t.isExportDefaultDeclaration(path)

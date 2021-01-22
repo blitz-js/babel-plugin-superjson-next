@@ -3,11 +3,13 @@ import * as hoistNonReactStatics from 'hoist-non-react-statics';
 import type { GetServerSideProps } from 'next';
 import * as React from 'react';
 
-type SuperJSONResult = ReturnType<typeof SuperJSON.serialize>;
+type SuperJSONProps = ReturnType<typeof SuperJSON.serialize> & {
+  _superjson: true;
+};
 
 export function withSuperJSONProps<P>(
   gssp: GetServerSideProps<P>
-): GetServerSideProps<SuperJSONResult> {
+): GetServerSideProps<SuperJSONProps> {
   return async function withSuperJSON(...args) {
     const result = await gssp(...args);
 
@@ -17,7 +19,10 @@ export function withSuperJSONProps<P>(
 
     const { json, meta } = SuperJSON.serialize(result.props);
 
-    const props: SuperJSONResult = { json };
+    const props: SuperJSONProps = {
+      json,
+      _superjson: true,
+    };
 
     if (Boolean(meta)) {
       props.meta = meta;
@@ -32,9 +37,9 @@ export function withSuperJSONProps<P>(
 
 export function withSuperJSONPage<P>(
   Page: React.ComponentType<P>
-): React.ComponentType<SuperJSONResult> {
-  function WithSuperJSON(serializedProps: SuperJSONResult) {
-    if (!serializedProps.json) {
+): React.ComponentType<SuperJSONProps> {
+  function WithSuperJSON(serializedProps: SuperJSONProps) {
+    if (!serializedProps._superjson) {
       const PageWithoutProps = Page as React.ComponentType<{}>;
       return <PageWithoutProps />;
     }

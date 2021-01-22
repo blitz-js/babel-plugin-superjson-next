@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 
-fixture`No meta`.page`http://localhost:3000/no-meta`;
+fixture`No meta`.page`http://localhost:3099/no-meta`;
 
 test('Raw object is built', async (t) => {
   const result = Selector('#__next');

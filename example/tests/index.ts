@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 
-fixture`Index`.page`http://localhost:3000/`;
+fixture`Index`.page`http://localhost:3099/`;
 
 test('Date is preserved', async (t) => {
   const result = Selector('#__next');
