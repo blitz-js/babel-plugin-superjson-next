@@ -48,8 +48,8 @@ If you don't have one, create it.
   presets: ['next/babel'],
   plugins: [
     ...
-    'superjson-next', // 👈
-  ],
+    'superjson-next' // 👈
+  ]
 }
 ```
 
