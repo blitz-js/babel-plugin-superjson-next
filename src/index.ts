@@ -138,7 +138,7 @@ const filesToSkip = ([] as string[]).concat(
 );
 
 function shouldBeSkipped(file: string) {
-  return filesToSkip.some((fileToSkip) => fileToSkip.includes(file));
+  return filesToSkip.some((fileToSkip) => file.includes(fileToSkip));
 }
 
 function superJsonWithNext(): PluginObj {
