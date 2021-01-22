@@ -128,6 +128,19 @@ function wrapExportDefaultDeclaration(path: NodePath<any>) {
   }
 }
 
+const filesToSkip = ([] as string[]).concat(
+  ...['_app', '_document', '_error'].map((name) => [
+    name + '.js',
+    name + '.jsx',
+    name + '.ts',
+    name + '.tsx',
+  ])
+);
+
+function shouldBeSkipped(file: string) {
+  return filesToSkip.some((fileToSkip) => fileToSkip.includes(file));
+}
+
 function superJsonWithNext(): PluginObj {
   return {
     name: 'add superjson to pages with prop getters',
@@ -138,15 +151,8 @@ function superJsonWithNext(): PluginObj {
         if (!filename.includes('pages' + nodePath.sep)) {
           return;
         }
-        const filesToSkip = ([] as string[]).concat(
-          ...['_app', '_document', '_error'].map((name) => [
-            name + '.js',
-            name + '.jsx',
-            name + '.ts',
-            name + '.tsx',
-          ])
-        );
-        if (filesToSkip.some((name) => filename.includes(name))) {
+
+        if (shouldBeSkipped(filename)) {
           return;
         }
 
