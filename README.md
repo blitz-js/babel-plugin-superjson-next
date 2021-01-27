@@ -11,7 +11,7 @@
 
 <p align="center">
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square" alt="All Contributors"/></a>
+<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square" alt="All Contributors"/></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <a href="https://www.npmjs.com/package/otion">
     <img alt="npm" src="https://img.shields.io/npm/v/babel-plugin-superjson-next" />
@@ -92,12 +92,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/jlmodell"><img src="https://avatars1.githubusercontent.com/u/48035911?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jlmodell</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Ajlmodell" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://cheese.graphics"><img src="https://avatars2.githubusercontent.com/u/45247477?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Cheese</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3AChGGse" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://juanm04.com"><img src="https://avatars1.githubusercontent.com/u/16712703?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JuanM04</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3AJuanM04" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://pieter.venter.pro/"><img src="https://avatars.githubusercontent.com/u/1845861?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Pieter Venter</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Acyrus-za" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
-<!-- markdownlint-restore -->
+<!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
