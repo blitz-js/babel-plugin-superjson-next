@@ -41,7 +41,7 @@ export function withSuperJSONPage<P>(
   function WithSuperJSON(serializedProps: SuperJSONProps) {
     if (!serializedProps._superjson) {
       const PageWithoutProps = Page as React.ComponentType<{}>;
-      return <PageWithoutProps />;
+      return <PageWithoutProps {...serializedProps as any as P} />;
     }
 
     const props = SuperJSON.deserialize<P>(serializedProps);
