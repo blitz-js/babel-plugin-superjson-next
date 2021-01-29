@@ -137,8 +137,14 @@ const filesToSkip = ([] as string[]).concat(
   ])
 );
 
-function shouldBeSkipped(file: string) {
-  return filesToSkip.some((fileToSkip) => file.includes(fileToSkip));
+function shouldBeSkipped(filePath: string) {
+  if (!filePath.includes('pages' + nodePath.sep)) {
+    return true;
+  }
+  if (filePath.includes('pages' + nodePath.sep + 'api')) {
+    return true;
+  }
+  return filesToSkip.some((fileToSkip) => filePath.includes(fileToSkip));
 }
 
 function superJsonWithNext(): PluginObj {
@@ -146,13 +152,10 @@ function superJsonWithNext(): PluginObj {
     name: 'add superjson to pages with prop getters',
     visitor: {
       Program(path, state) {
-        const filename =
+        const filePath =
           getFileName(state) ?? nodePath.join('pages', 'Default.js');
-        if (!filename.includes('pages' + nodePath.sep)) {
-          return;
-        }
 
-        if (shouldBeSkipped(filename)) {
+        if (shouldBeSkipped(filePath)) {
           return;
         }
 
