@@ -37,7 +37,7 @@
     "@types/react": "^17.0.0",
     "all-contributors-cli": "^6.19.0",
     "babel-plugin-tester": "^10.0.0",
-    "eslint": "^7.17.0",
+    "eslint": "^7.18.0",
     "eslint-plugin-prettier": "^3.3.1",
     "husky": "^4.3.7",
     "jest": "^26.6.3",
