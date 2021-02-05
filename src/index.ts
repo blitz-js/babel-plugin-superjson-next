@@ -1,9 +1,19 @@
-import { PluginObj, types as t, NodePath, PluginPass } from '@babel/core';
+import { NodePath, PluginObj, PluginPass } from '@babel/core';
 import { addNamed as addNamedImport } from '@babel/helper-module-imports';
+import {
+  callExpression,
+  ClassDeclaration,
+  classExpression,
+  ExportNamedDeclaration,
+  Expression, FunctionDeclaration,
+  functionExpression, isClassDeclaration, isExportDefaultDeclaration, isExportNamedDeclaration,
+  isFunctionDeclaration, isFunctionExpression, isIdentifier,
+  isVariableDeclaration, variableDeclaration, variableDeclarator,
+} from '@babel/types';
 import * as nodePath from 'path';
 
-function functionDeclarationToExpression(declaration: t.FunctionDeclaration) {
-  return t.functionExpression(
+function functionDeclarationToExpression(declaration: FunctionDeclaration) {
+  return functionExpression(
     declaration.id,
     declaration.params,
     declaration.body,
@@ -12,8 +22,8 @@ function functionDeclarationToExpression(declaration: t.FunctionDeclaration) {
   );
 }
 
-function classDeclarationToExpression(declaration: t.ClassDeclaration) {
-  return t.classExpression(
+function classDeclarationToExpression(declaration: ClassDeclaration) {
+  return classExpression(
     declaration.id,
     declaration.superClass,
     declaration.body,
@@ -38,12 +48,12 @@ function getFileName(state: PluginPass) {
 const functionsToReplace = ['getServerSideProps', 'getStaticProps'];
 
 function transformPropGetters(
-  path: NodePath<t.ExportNamedDeclaration>,
-  transform: (v: t.Expression) => t.Expression
+  path: NodePath<ExportNamedDeclaration>,
+  transform: (v: Expression) => Expression
 ) {
   const { node } = path;
 
-  if (t.isFunctionDeclaration(node.declaration)) {
+  if (isFunctionDeclaration(node.declaration)) {
     const { id: functionId } = node.declaration;
     if (!functionId) {
       return;
@@ -53,8 +63,8 @@ function transformPropGetters(
       return;
     }
 
-    node.declaration = t.variableDeclaration('const', [
-      t.variableDeclarator(
+    node.declaration = variableDeclaration('const', [
+      variableDeclarator(
         functionId,
         transform(functionDeclarationToExpression(node.declaration))
       ),
@@ -63,10 +73,10 @@ function transformPropGetters(
     return;
   }
 
-  if (t.isVariableDeclaration(node.declaration)) {
+  if (isVariableDeclaration(node.declaration)) {
     node.declaration.declarations.forEach((declaration) => {
       if (
-        t.isIdentifier(declaration.id) &&
+        isIdentifier(declaration.id) &&
         functionsToReplace.includes(declaration.id.name) &&
         declaration.init
       ) {
@@ -93,29 +103,29 @@ function addWithSuperJSONPageImport(path: NodePath<any>) {
 }
 
 function wrapExportDefaultDeclaration(path: NodePath<any>) {
-  function wrapInHOC(expr: t.Expression): t.Expression {
-    return t.callExpression(addWithSuperJSONPageImport(path), [expr]);
+  function wrapInHOC(expr: Expression): Expression {
+    return callExpression(addWithSuperJSONPageImport(path), [expr]);
   }
 
   const { node } = path;
 
-  if (t.isIdentifier(node.declaration)) {
+  if (isIdentifier(node.declaration)) {
     node.declaration = wrapInHOC(node.declaration);
   }
 
-  if (t.isFunctionExpression(node.declaration)) {
+  if (isFunctionExpression(node.declaration)) {
     node.declaration = wrapInHOC(node.declaration);
   }
 
   if (
-    t.isFunctionDeclaration(node.declaration) ||
-    t.isClassDeclaration(node.declaration)
+    isFunctionDeclaration(node.declaration) ||
+    isClassDeclaration(node.declaration)
   ) {
     if (node.declaration.id) {
       path.insertBefore(node.declaration);
       node.declaration = wrapInHOC(node.declaration.id);
     } else {
-      if (t.isFunctionDeclaration(node.declaration)) {
+      if (isFunctionDeclaration(node.declaration)) {
         node.declaration = wrapInHOC(
           functionDeclarationToExpression(node.declaration)
         );
@@ -162,12 +172,12 @@ function superJsonWithNext(): PluginObj {
         const body = path.get('body');
 
         body
-          .filter((path) => t.isExportNamedDeclaration(path))
+          .filter((path) => isExportNamedDeclaration(path))
           .forEach((path) => {
             transformPropGetters(
-              path as NodePath<t.ExportNamedDeclaration>,
+              path as NodePath<ExportNamedDeclaration>,
               (decl) => {
-                return t.callExpression(addWithSuperJSONPropsImport(path), [
+                return callExpression(addWithSuperJSONPropsImport(path), [
                   decl,
                 ]);
               }
@@ -175,7 +185,7 @@ function superJsonWithNext(): PluginObj {
           });
 
         const exportDefaultDeclaration = body.find((path) =>
-          t.isExportDefaultDeclaration(path)
+          isExportDefaultDeclaration(path)
         );
         if (!exportDefaultDeclaration) {
           return;
