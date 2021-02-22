@@ -52,7 +52,6 @@
   },
   "peerDependencies": {
     "next": ">=9.0.0",
-    "react": ">=16.X",
     "superjson": "1.x"
   },
   "dependencies": {
