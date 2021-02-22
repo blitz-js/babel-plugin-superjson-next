@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declaration": true,
     "sourceMap": true,
-    "lib": ["es2016"],
+    "target": "ES5",
     "rootDir": "src",
     "outDir": "dist",
     "strict": true,
