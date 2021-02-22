@@ -31,8 +31,8 @@
   "author": "Simon Knott",
   "module": "dist/babel-plugin-superjson-next.esm.js",
   "devDependencies": {
-    "@babel/core": "^7.12.13",
-    "@babel/types": "^7.12.13",
+    "@babel/core": "^7.12.17",
+    "@babel/types": "^7.12.17",
     "@testing-library/react-native": "^7.1.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/react": "^17.0.0",

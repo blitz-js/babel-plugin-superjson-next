@@ -1,14 +1,22 @@
-import { NodePath, PluginObj, PluginPass } from '@babel/core';
+import type { NodePath, PluginObj, PluginPass } from '@babel/core';
 import { addNamed as addNamedImport } from '@babel/helper-module-imports';
 import {
   callExpression,
   ClassDeclaration,
   classExpression,
   ExportNamedDeclaration,
-  Expression, FunctionDeclaration,
-  functionExpression, isClassDeclaration, isExportDefaultDeclaration, isExportNamedDeclaration,
-  isFunctionDeclaration, isFunctionExpression, isIdentifier,
-  isVariableDeclaration, variableDeclaration, variableDeclarator,
+  Expression,
+  FunctionDeclaration,
+  functionExpression,
+  isClassDeclaration,
+  isExportDefaultDeclaration,
+  isExportNamedDeclaration,
+  isFunctionDeclaration,
+  isFunctionExpression,
+  isIdentifier,
+  isVariableDeclaration,
+  variableDeclaration,
+  variableDeclarator,
 } from '@babel/types';
 import * as nodePath from 'path';
 
