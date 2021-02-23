@@ -1,5 +1,5 @@
 {
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -54,8 +54,8 @@
     "superjson": "1.x"
   },
   "dependencies": {
-    "@babel/types": "^7.12.17",
     "@babel/helper-module-imports": "^7.12.13",
+    "@babel/types": "^7.12.17",
     "hoist-non-react-statics": "^3.3.2"
   }
 }
