@@ -17,6 +17,10 @@ export function withSuperJSONProps<P>(
       return result;
     }
 
+    if (!result.props) {
+      return result;
+    }
+
     const { json, meta } = SuperJSON.serialize(result.props);
     const props = json as any;
 
