@@ -17,10 +17,10 @@
     <img alt="npm" src="https://img.shields.io/npm/v/babel-plugin-superjson-next" />
   </a>
 
-  <a href="https://github.com/blitz-js/superjson/actions">
+  <a href="https://github.com/blitz-js/babel-plugin-superjson-next/actions">
     <img
       alt="CI"
-      src="https://github.com/blitz-js/superjson/workflows/CI/badge.svg"
+      src="https://github.com/blitz-js/babel-plugin-superjson-next/workflows/CI/badge.svg"
     />
   </a>
 </p>
