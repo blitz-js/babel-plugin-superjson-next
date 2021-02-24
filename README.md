@@ -13,7 +13,7 @@
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square" alt="All Contributors"/></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-  <a href="https://www.npmjs.com/package/otion">
+  <a href="https://www.npmjs.com/package/babel-plugin-superjson-next">
     <img alt="npm" src="https://img.shields.io/npm/v/babel-plugin-superjson-next" />
   </a>
 
