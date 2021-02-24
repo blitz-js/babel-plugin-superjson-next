@@ -29,6 +29,14 @@
   },
   "name": "babel-plugin-superjson-next",
   "author": "Simon Knott",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blitz-js/babel-plugin-superjson-next.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blitz-js/babel-plugin-superjson-next/issues"
+  },
+  "homepage": "https://github.com/blitz-js/babel-plugin-superjson-next#readme",
   "module": "dist/babel-plugin-superjson-next.esm.js",
   "devDependencies": {
     "@babel/core": "^7.12.17",
