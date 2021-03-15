@@ -40,14 +40,14 @@
   "module": "dist/babel-plugin-superjson-next.esm.js",
   "devDependencies": {
     "@babel/core": "^7.13.8",
-    "@testing-library/react-native": "^7.1.0",
+    "@testing-library/react-native": "^7.2.0",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/react": "^17.0.2",
+    "@types/react": "^17.0.3",
     "all-contributors-cli": "^6.20.0",
     "babel-plugin-tester": "^10.0.0",
     "eslint": "^7.20.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "husky": "^5.0.9",
+    "husky": "^5.1.3",
     "jest": "^26.6.3",
     "next": "^10.0.7",
     "prettier": "^2.2.1",
@@ -55,7 +55,7 @@
     "react-test-renderer": "^17.0.1",
     "superjson": "^1.7.2",
     "ts-jest": "^26.5.2",
-    "typescript": "^4.1.5"
+    "typescript": "^4.2.3"
   },
   "peerDependencies": {
     "next": ">=9.0.0",
