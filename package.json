@@ -42,6 +42,7 @@
     "@babel/core": "^7.13.8",
     "@testing-library/react-native": "^7.2.0",
     "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/jest": "^26.0.22",
     "@types/react": "^17.0.3",
     "all-contributors-cli": "^6.20.0",
     "babel-plugin-tester": "^10.0.0",
