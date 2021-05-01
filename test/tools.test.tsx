@@ -38,7 +38,7 @@ describe('tools', () => {
       }
       const wrappedGssp = withSuperJSONProps(gSSP, ['a']);
 
-      const result = await wrappedGssp(null);
+      const result = await wrappedGssp(null as any);
       expect(result).toEqual({
         props: {
           a: aDate,
