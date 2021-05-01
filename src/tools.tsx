@@ -36,7 +36,10 @@ export function withSuperJSONProps<P>(
     }
 
     exclude.forEach((key, index) => {
-      props[key] = excludedPropValues[index];
+      const excludedPropValue = excludedPropValues[index];
+      if (typeof excludedPropValue !== 'undefined') {
+        props[key] = excludedPropValue;
+      }
     });
 
     return {
