@@ -22,12 +22,22 @@ export function withSuperJSONProps<P>(
       return result;
     }
 
+    const excludedPropValues = exclude.map((propKey) => {
+      const value = (result.props as any)[propKey];
+      delete (result.props as any)[propKey];
+      return value;
+    });
+
     const { json, meta } = SuperJSON.serialize(result.props);
     const props = json as any;
 
     if (meta) {
       props._superjson = meta;
     }
+
+    exclude.forEach((key, index) => {
+      props[key] = excludedPropValues[index];
+    });
 
     return {
       ...result,
