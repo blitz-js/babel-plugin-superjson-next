@@ -57,6 +57,20 @@ That's it! Now you're free to use all values and type supported by SuperJSON in 
 
 <!-- Potential new section: how it works -->
 
+### Options
+
+You can use the `exclude` option to exclude specific properties from serialisation.
+
+```json5
+{
+  presets: ['next/babel'],
+  plugins: [
+    ...
+    ['superjson-next', { exclude: ["someProp"] }]
+  ]
+}
+```
+
 ## Contributing
 
 1. Clone the repo
