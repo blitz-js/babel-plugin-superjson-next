@@ -16,6 +16,4 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   );
 };
 
-Page.getLayout = (page) => <>This is part of the static method {page}</>;
-
 export default Page;
