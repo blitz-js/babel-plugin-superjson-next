@@ -1,8 +1,8 @@
 import { Selector } from 'testcafe';
 
-fixture`With Static Methods`.page`http://localhost:3099/excluded-props`;
+fixture`Excluded Props`.page`http://localhost:3099/excluded-props`;
 
-test('Static methods are preserved', async (t) => {
+test('works', async (t) => {
   const result = Selector('#__next');
   await t
     .expect(result.innerText)
