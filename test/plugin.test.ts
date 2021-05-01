@@ -4,5 +4,8 @@ import * as path from 'path';
 
 pluginTester({
   plugin: superJsonWithNext,
+  pluginOptions: {
+    exclude: ['smth'],
+  },
   fixtures: path.join(__dirname, 'pages'),
 });

@@ -8,7 +8,8 @@ type SuperJSONProps<P> = P & {
 };
 
 export function withSuperJSONProps<P>(
-  gssp: GetServerSideProps<P>
+  gssp: GetServerSideProps<P>,
+  exclude: string[] = []
 ): GetServerSideProps<SuperJSONProps<P>> {
   return async function withSuperJSON(...args) {
     const result = await gssp(...args);

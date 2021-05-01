@@ -12,7 +12,7 @@ export const getServerSideProps = _withSuperJSONProps(async () => {
       products,
     },
   };
-});
+}, ['smth']);
 
 class Page {
   render({ products }) {
