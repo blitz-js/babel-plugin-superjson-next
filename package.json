@@ -39,7 +39,7 @@
   "homepage": "https://github.com/blitz-js/babel-plugin-superjson-next#readme",
   "module": "dist/babel-plugin-superjson-next.esm.js",
   "devDependencies": {
-    "@babel/core": "^7.13.14",
+    "@babel/core": "^7.13.16",
     "@testing-library/react-native": "^7.2.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^26.0.22",
@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@babel/helper-module-imports": "^7.13.12",
-    "@babel/types": "^7.13.14",
+    "@babel/types": "^7.13.17",
     "hoist-non-react-statics": "^3.3.2"
   }
 }
