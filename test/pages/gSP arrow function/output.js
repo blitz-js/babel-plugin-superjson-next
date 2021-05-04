@@ -12,7 +12,7 @@ export const getStaticProps = _withSuperJSONProps(async () => {
       products,
     },
   };
-});
+}, ['smth']);
 
 function Page({ products }) {
   return JSON.stringify(products);

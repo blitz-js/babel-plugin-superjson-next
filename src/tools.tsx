@@ -8,7 +8,8 @@ type SuperJSONProps<P> = P & {
 };
 
 export function withSuperJSONProps<P>(
-  gssp: GetServerSideProps<P>
+  gssp: GetServerSideProps<P>,
+  exclude: string[] = []
 ): GetServerSideProps<SuperJSONProps<P>> {
   return async function withSuperJSON(...args) {
     const result = await gssp(...args);
@@ -21,12 +22,25 @@ export function withSuperJSONProps<P>(
       return result;
     }
 
+    const excludedPropValues = exclude.map((propKey) => {
+      const value = (result.props as any)[propKey];
+      delete (result.props as any)[propKey];
+      return value;
+    });
+
     const { json, meta } = SuperJSON.serialize(result.props);
     const props = json as any;
 
     if (meta) {
       props._superjson = meta;
     }
+
+    exclude.forEach((key, index) => {
+      const excludedPropValue = excludedPropValues[index];
+      if (typeof excludedPropValue !== 'undefined') {
+        props[key] = excludedPropValue;
+      }
+    });
 
     return {
       ...result,

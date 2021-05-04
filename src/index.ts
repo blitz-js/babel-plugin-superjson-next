@@ -17,6 +17,8 @@ import {
   isVariableDeclaration,
   variableDeclaration,
   variableDeclarator,
+  arrayExpression,
+  stringLiteral,
 } from '@babel/types';
 import * as nodePath from 'path';
 
@@ -170,6 +172,10 @@ function superJsonWithNext(): PluginObj {
     name: 'add superjson to pages with prop getters',
     visitor: {
       Program(path, state) {
+        const propsToBeExcluded = (state.opts as any).exclude as
+          | string[]
+          | undefined;
+
         const filePath =
           getFileName(state) ?? nodePath.join('pages', 'Default.js');
 
@@ -187,6 +193,9 @@ function superJsonWithNext(): PluginObj {
               (decl) => {
                 return callExpression(addWithSuperJSONPropsImport(path), [
                   decl,
+                  arrayExpression(
+                    propsToBeExcluded?.map((prop) => stringLiteral(prop))
+                  ),
                 ]);
               }
             );

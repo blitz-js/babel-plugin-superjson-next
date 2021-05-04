@@ -1,4 +1,11 @@
 {
-    "presets": ["next/babel"],
-    "plugins": ["superjson-next"]
+  "presets": ["next/babel"],
+  "plugins": [
+    [
+      "superjson-next",
+      {
+        "exclude": ["superJsonSkipped"]
+      }
+    ]
+  ]
 }

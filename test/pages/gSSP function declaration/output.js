@@ -13,7 +13,8 @@ export const getServerSideProps = _withSuperJSONProps(
         products,
       },
     };
-  }
+  },
+  ['smth']
 );
 
 function Page({ products }) {

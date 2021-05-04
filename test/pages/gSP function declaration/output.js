@@ -13,7 +13,8 @@ export const getStaticProps = _withSuperJSONProps(
         products,
       },
     };
-  }
+  },
+  ['smth']
 );
 
 function Page({ products }) {
