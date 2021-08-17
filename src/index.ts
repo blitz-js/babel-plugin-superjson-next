@@ -193,28 +193,36 @@ function superJsonWithNext(): PluginObj {
           return;
         }
 
-        let transformedOne = false;
-        body
-          .filter((path) => isExportNamedDeclaration(path))
-          .forEach((path) => {
-            const found = transformPropGetters(
-              path as NodePath<ExportNamedDeclaration>,
-              (decl) => {
-                return callExpression(addWithSuperJSONPropsImport(path), [
-                  decl,
-                  arrayExpression(
-                    propsToBeExcluded?.map((prop) => stringLiteral(prop))
-                  ),
-                ]);
-              }
-            );
+        const namedExportDeclarations = body
+          .filter((path) => path.isExportNamedDeclaration())
+          .map((path) => path as NodePath<ExportNamedDeclaration>);
 
-            if (found === 'found') {
-              transformedOne = true;
-            }
+        const containsNSSPTag = namedExportDeclarations.some((path) => {
+          return (
+            isVariableDeclaration(path.node.declaration) &&
+            path.node.declaration.declarations.some(
+              (decl) => isIdentifier(decl.id) && decl.id.name === '__N_SSP'
+            )
+          );
+        });
+
+        let transformedOne = false;
+        namedExportDeclarations.forEach((path) => {
+          const found = transformPropGetters(path, (decl) => {
+            return callExpression(addWithSuperJSONPropsImport(path), [
+              decl,
+              arrayExpression(
+                propsToBeExcluded?.map((prop) => stringLiteral(prop))
+              ),
+            ]);
           });
 
-        if (!transformedOne) {
+          if (found === 'found') {
+            transformedOne = true;
+          }
+        });
+
+        if (!transformedOne && !containsNSSPTag) {
           return;
         }
 
