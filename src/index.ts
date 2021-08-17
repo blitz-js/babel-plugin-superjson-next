@@ -197,11 +197,11 @@ function superJsonWithNext(): PluginObj {
           .filter((path) => path.isExportNamedDeclaration())
           .map((path) => path as NodePath<ExportNamedDeclaration>);
 
-        const containsNSSPTag = namedExportDeclarations.some((path) => {
+        const containsNextTag = namedExportDeclarations.some((path) => {
           return (
             isVariableDeclaration(path.node.declaration) &&
             path.node.declaration.declarations.some(
-              (decl) => isIdentifier(decl.id) && decl.id.name === '__N_SSP'
+              (decl) => isIdentifier(decl.id) && decl.id.name.startsWith('__N_')
             )
           );
         });
@@ -222,7 +222,7 @@ function superJsonWithNext(): PluginObj {
           }
         });
 
-        if (!transformedOne && !containsNSSPTag) {
+        if (!transformedOne && !containsNextTag) {
           return;
         }
 
