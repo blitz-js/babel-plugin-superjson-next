@@ -60,7 +60,7 @@ const functionsToReplace = ['getServerSideProps', 'getStaticProps'];
 function transformPropGetters(
   path: NodePath<ExportNamedDeclaration>,
   transform: (v: Expression) => Expression
-) {
+): 'found' | undefined {
   const { node } = path;
 
   if (isFunctionDeclaration(node.declaration)) {
@@ -80,19 +80,20 @@ function transformPropGetters(
       ),
     ]);
 
-    return;
+    return 'found';
   }
 
   if (isVariableDeclaration(node.declaration)) {
-    node.declaration.declarations.forEach((declaration) => {
+    for (const declaration of node.declaration.declarations) {
       if (
         isIdentifier(declaration.id) &&
         functionsToReplace.includes(declaration.id.name) &&
         declaration.init
       ) {
         declaration.init = transform(declaration.init);
+        return 'found';
       }
-    });
+    }
   }
 }
 
@@ -185,10 +186,18 @@ function superJsonWithNext(): PluginObj {
 
         const body = path.get('body');
 
+        const exportDefaultDeclaration = body.find((path) =>
+          isExportDefaultDeclaration(path)
+        );
+        if (!exportDefaultDeclaration) {
+          return;
+        }
+
+        let transformedOne = false;
         body
           .filter((path) => isExportNamedDeclaration(path))
           .forEach((path) => {
-            transformPropGetters(
+            const found = transformPropGetters(
               path as NodePath<ExportNamedDeclaration>,
               (decl) => {
                 return callExpression(addWithSuperJSONPropsImport(path), [
@@ -199,12 +208,13 @@ function superJsonWithNext(): PluginObj {
                 ]);
               }
             );
+
+            if (found === 'found') {
+              transformedOne = true;
+            }
           });
 
-        const exportDefaultDeclaration = body.find((path) =>
-          isExportDefaultDeclaration(path)
-        );
-        if (!exportDefaultDeclaration) {
+        if (!transformedOne) {
           return;
         }
 
