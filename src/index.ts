@@ -1,6 +1,7 @@
 import type { NodePath, PluginObj, PluginPass } from '@babel/core';
 import { addNamed as addNamedImport } from '@babel/helper-module-imports';
 import {
+  arrayExpression,
   callExpression,
   ClassDeclaration,
   classExpression,
@@ -10,17 +11,16 @@ import {
   functionExpression,
   isClassDeclaration,
   isExportDefaultDeclaration,
-  isExportNamedDeclaration,
   isFunctionDeclaration,
   isFunctionExpression,
   isIdentifier,
   isVariableDeclaration,
+  stringLiteral,
   variableDeclaration,
   variableDeclarator,
-  arrayExpression,
-  stringLiteral,
 } from '@babel/types';
 import * as nodePath from 'path';
+import { deserializeProps } from './tools';
 
 function functionDeclarationToExpression(declaration: FunctionDeclaration) {
   return functionExpression(
@@ -233,3 +233,5 @@ function superJsonWithNext(): PluginObj {
 }
 
 export default superJsonWithNext;
+
+export { deserializeProps };
