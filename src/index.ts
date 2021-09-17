@@ -20,7 +20,6 @@ import {
   variableDeclarator,
 } from '@babel/types';
 import * as nodePath from 'path';
-import { deserializeProps } from './tools';
 
 function functionDeclarationToExpression(declaration: FunctionDeclaration) {
   return functionExpression(
@@ -233,5 +232,3 @@ function superJsonWithNext(): PluginObj {
 }
 
 export default superJsonWithNext;
-
-export { deserializeProps };
