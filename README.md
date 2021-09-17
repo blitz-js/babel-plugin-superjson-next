@@ -11,7 +11,7 @@
 
 <p align="center">
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square" alt="All Contributors"/></a>
+<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square" alt="All Contributors"/></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <a href="https://www.npmjs.com/package/babel-plugin-superjson-next">
     <img alt="npm" src="https://img.shields.io/npm/v/babel-plugin-superjson-next" />
@@ -112,6 +112,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://dalbitresb.com"><img src="https://avatars.githubusercontent.com/u/7624090?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Diego Albitres</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=dalbitresb12" title="Code">💻</a></td>
     <td align="center"><a href="https://typeofweb.com"><img src="https://avatars.githubusercontent.com/u/1338731?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michał Miszczyszyn</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Ammiszy" title="Bug reports">🐛</a> <a href="#plugin-mmiszy" title="Plugin/utility libraries">🔌</a></td>
+    <td align="center"><a href="https://italodeandra.de"><img src="https://avatars.githubusercontent.com/u/19225266?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ítalo Andrade</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Aitalodeandra" title="Bug reports">🐛</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=italodeandra" title="Code">💻</a></td>
   </tr>
 </table>
 
