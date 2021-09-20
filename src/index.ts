@@ -12,7 +12,6 @@ import {
   isClassDeclaration,
   isExportDefaultDeclaration,
   isFunctionDeclaration,
-  isFunctionExpression,
   isIdentifier,
   isVariableDeclaration,
   stringLiteral,
@@ -119,14 +118,6 @@ function wrapExportDefaultDeclaration(path: NodePath<any>) {
 
   const { node } = path;
 
-  if (isIdentifier(node.declaration)) {
-    node.declaration = wrapInHOC(node.declaration);
-  }
-
-  if (isFunctionExpression(node.declaration)) {
-    node.declaration = wrapInHOC(node.declaration);
-  }
-
   if (
     isFunctionDeclaration(node.declaration) ||
     isClassDeclaration(node.declaration)
@@ -145,6 +136,8 @@ function wrapExportDefaultDeclaration(path: NodePath<any>) {
         );
       }
     }
+  } else {
+    node.declaration = wrapInHOC(node.declaration);
   }
 }
 
