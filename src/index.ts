@@ -11,12 +11,18 @@ import {
   functionExpression,
   isClassDeclaration,
   isExportDefaultDeclaration,
+  isExportNamedDeclaration,
   isFunctionDeclaration,
   isIdentifier,
   isVariableDeclaration,
   stringLiteral,
   variableDeclaration,
   variableDeclarator,
+  importDeclaration,
+  importDefaultSpecifier,
+  importSpecifier,
+  identifier,
+  exportDefaultDeclaration,
 } from '@babel/types';
 import * as nodePath from 'path';
 
@@ -150,6 +156,38 @@ const filesToSkip = ([] as string[]).concat(
   ])
 );
 
+/**
+ * transforms `export { default } from ".."` import & export line
+ */
+function transformImportExportDefault(paths: NodePath<any>[]) {
+  for (const path of paths) {
+    if (isExportNamedDeclaration(path)) {
+      for (const specifier of path.node.specifiers) {
+        if (specifier.local.name === 'default') {
+          const exportIdentifier = identifier('__superjsonLocalExport');
+          path.insertAfter(exportDefaultDeclaration(exportIdentifier) as any);
+
+          path.insertAfter(
+            importDeclaration(
+              [importDefaultSpecifier(exportIdentifier)],
+              path.node.source
+            ) as any
+          );
+
+          path.node.specifiers.splice(
+            path.node.specifiers.indexOf(specifier),
+            1
+          );
+
+          if (path.node.specifiers.length === 0) {
+            path.remove();
+          }
+        }
+      }
+    }
+  }
+}
+
 function shouldBeSkipped(filePath: string) {
   if (!filePath.includes('pages' + nodePath.sep)) {
     return true;
@@ -175,6 +213,8 @@ function superJsonWithNext(): PluginObj {
         if (shouldBeSkipped(filePath)) {
           return;
         }
+
+        transformImportExportDefault(path.get('body'));
 
         const body = path.get('body');
 
