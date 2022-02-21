@@ -192,7 +192,7 @@ function shouldBeSkipped(filePath: string) {
   if (!filePath.includes('pages' + nodePath.sep)) {
     return true;
   }
-  if (filePath.includes('pages' + nodePath.sep + 'api')) {
+  if (filePath.includes('pages' + nodePath.sep + 'api' + nodePath.sep)) {
     return true;
   }
   return filesToSkip.some((fileToSkip) => filePath.includes(fileToSkip));
