@@ -20,9 +20,9 @@ import {
   variableDeclarator,
   importDeclaration,
   importDefaultSpecifier,
-  importSpecifier,
   identifier,
   exportDefaultDeclaration,
+  Identifier,
 } from '@babel/types';
 import * as nodePath from 'path';
 
@@ -69,6 +69,7 @@ function transformPropGetters(
 
   if (isFunctionDeclaration(node.declaration)) {
     const { id: functionId } = node.declaration;
+
     if (!functionId) {
       return;
     }
@@ -221,6 +222,7 @@ function superJsonWithNext(): PluginObj {
         const exportDefaultDeclaration = body.find((path) =>
           isExportDefaultDeclaration(path)
         );
+
         if (!exportDefaultDeclaration) {
           return;
         }
@@ -228,6 +230,26 @@ function superJsonWithNext(): PluginObj {
         const namedExportDeclarations = body
           .filter((path) => path.isExportNamedDeclaration())
           .map((path) => path as NodePath<ExportNamedDeclaration>);
+
+        const exportedPageProps = namedExportDeclarations.filter((path) => {
+          return path.node.specifiers.some(
+            (specifier) =>
+              specifier.type === 'ExportSpecifier' &&
+              functionsToReplace.includes(specifier.local.name)
+          );
+        });
+
+        exportedPageProps.forEach((pageProp) => {
+          if (!pageProp.node.source?.value) {
+            return;
+          }
+
+          addNamedImport(
+            pageProp as any,
+            (pageProp.node.specifiers[0].exported as Identifier).name,
+            pageProp.node.source.value
+          );
+        });
 
         const containsNextTag = namedExportDeclarations.some((path) => {
           return (
