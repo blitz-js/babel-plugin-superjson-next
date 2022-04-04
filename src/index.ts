@@ -22,7 +22,8 @@ import {
   importDefaultSpecifier,
   identifier,
   exportDefaultDeclaration,
-  Identifier,
+  exportNamedDeclaration,
+  exportSpecifier,
 } from '@babel/types';
 import * as nodePath from 'path';
 
@@ -193,9 +194,11 @@ function shouldBeSkipped(filePath: string) {
   if (!filePath.includes('pages' + nodePath.sep)) {
     return true;
   }
+
   if (filePath.includes('pages' + nodePath.sep + 'api' + nodePath.sep)) {
     return true;
   }
+
   return filesToSkip.some((fileToSkip) => filePath.includes(fileToSkip));
 }
 
@@ -240,28 +243,61 @@ function superJsonWithNext(): PluginObj {
         });
 
         exportedPageProps.forEach((pageProp) => {
-          if (!pageProp.node.source?.value) {
-            return;
+          pageProp.node.specifiers.forEach((specifier) => {
+            if (
+              !pageProp.node.source?.value ||
+              specifier.exported.type !== 'Identifier'
+            ) {
+              return;
+            }
+
+            const id = addNamedImport(
+              pageProp as NodePath,
+              specifier.exported.name,
+              pageProp.node.source.value
+            );
+
+            const foundExport = {
+              importedAs: id.name,
+              exportedAs: specifier.exported.name,
+              path: pageProp as NodePath,
+            };
+
+            const declaration = exportNamedDeclaration(
+              variableDeclaration('const', [
+                variableDeclarator(
+                  identifier(foundExport.exportedAs),
+                  callExpression(addWithSuperJSONPropsImport(path), [
+                    identifier(foundExport.importedAs),
+                  ])
+                ),
+              ])
+            );
+
+            foundExport.path.insertAfter(declaration as any);
+          });
+
+          pageProp.remove();
+        });
+
+        const unremovedNamedExportDeclarations = namedExportDeclarations.filter(
+          (e) => !e.removed
+        );
+
+        const containsNextTag = unremovedNamedExportDeclarations.some(
+          (path) => {
+            return (
+              isVariableDeclaration(path.node.declaration) &&
+              path.node.declaration.declarations.some(
+                (decl) =>
+                  isIdentifier(decl.id) && decl.id.name.startsWith('__N_')
+              )
+            );
           }
-
-          addNamedImport(
-            pageProp as any,
-            (pageProp.node.specifiers[0].exported as Identifier).name,
-            pageProp.node.source.value
-          );
-        });
-
-        const containsNextTag = namedExportDeclarations.some((path) => {
-          return (
-            isVariableDeclaration(path.node.declaration) &&
-            path.node.declaration.declarations.some(
-              (decl) => isIdentifier(decl.id) && decl.id.name.startsWith('__N_')
-            )
-          );
-        });
+        );
 
         let transformedOne = false;
-        namedExportDeclarations.forEach((path) => {
+        unremovedNamedExportDeclarations.forEach((path) => {
           const found = transformPropGetters(path, (decl) => {
             return callExpression(addWithSuperJSONPropsImport(path), [
               decl,
