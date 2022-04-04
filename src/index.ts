@@ -142,7 +142,7 @@ function transformImportExportDefault(paths: NodePath<any>[]) {
       for (const specifier of path.node.specifiers) {
         if (specifier.local.name === 'default') {
           const exportIdentifier = t.identifier('__superjsonLocalExport');
-          path.insertAfter(t.exportDefaultDeclaration(exportIdentifier) as any);
+          path.insertAfter(t.exportDefaultDeclaration(exportIdentifier));
           path.insertAfter(
             t.importDeclaration(
               [t.importDefaultSpecifier(exportIdentifier)],
