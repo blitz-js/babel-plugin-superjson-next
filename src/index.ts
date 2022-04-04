@@ -23,7 +23,9 @@ import {
   identifier,
   exportDefaultDeclaration,
   exportNamedDeclaration,
-  exportSpecifier,
+  ExportSpecifier,
+  Identifier,
+  importSpecifier,
 } from '@babel/types';
 import * as nodePath from 'path';
 
@@ -168,7 +170,6 @@ function transformImportExportDefault(paths: NodePath<any>[]) {
         if (specifier.local.name === 'default') {
           const exportIdentifier = identifier('__superjsonLocalExport');
           path.insertAfter(exportDefaultDeclaration(exportIdentifier) as any);
-
           path.insertAfter(
             importDeclaration(
               [importDefaultSpecifier(exportIdentifier)],
@@ -243,32 +244,48 @@ function superJsonWithNext(): PluginObj {
         });
 
         exportedPageProps.forEach((pageProp) => {
-          pageProp.node.specifiers.forEach((specifier) => {
-            if (
-              !pageProp.node.source?.value ||
-              specifier.exported.type !== 'Identifier'
-            ) {
+          if (!pageProp.node.source?.value) {
+            return;
+          }
+
+          const specifiers = pageProp.node.specifiers
+            .filter((specifier): specifier is ExportSpecifier & {
+              exported: Identifier;
+            } => {
+              return specifier.exported.type === 'Identifier';
+            })
+            .map((specifier) => {
+              return {
+                name: specifier.exported.name,
+                path: pageProp as NodePath,
+              };
+            });
+
+          const declaration = importDeclaration(
+            specifiers.map((specifier) =>
+              importSpecifier(
+                identifier(specifier.name),
+                identifier(specifier.name)
+              )
+            ),
+            stringLiteral(pageProp.node.source.value)
+          );
+
+          path.insertBefore(declaration);
+
+          specifiers.forEach((foundExport) => {
+            if (!foundExport) {
               return;
             }
 
-            const id = addNamedImport(
-              pageProp as NodePath,
-              specifier.exported.name,
-              pageProp.node.source.value
-            );
-
-            const foundExport = {
-              importedAs: id.name,
-              exportedAs: specifier.exported.name,
-              path: pageProp as NodePath,
-            };
+            // pageProp as NodePath, specifier.exported.name, ;
 
             const declaration = exportNamedDeclaration(
               variableDeclaration('const', [
                 variableDeclarator(
-                  identifier(foundExport.exportedAs),
+                  identifier(foundExport.name),
                   callExpression(addWithSuperJSONPropsImport(path), [
-                    identifier(foundExport.importedAs),
+                    identifier(foundExport.name),
                   ])
                 ),
               ])

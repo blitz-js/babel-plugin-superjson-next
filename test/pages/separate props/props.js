@@ -12,3 +12,5 @@ export const getStaticProps = async () => {
     },
   };
 };
+
+export const getServerSideProps = getStaticProps;
