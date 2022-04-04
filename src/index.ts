@@ -250,7 +250,7 @@ function superJsonWithNext(): PluginObj {
             t.stringLiteral(pageProp.node.source.value)
           );
 
-          pageProp.insertBefore(declaration);
+          path.get('body')[0].insertBefore(declaration);
 
           specifiers.forEach((foundExport) => {
             if (!foundExport) {
