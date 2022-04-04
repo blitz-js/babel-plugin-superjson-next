@@ -143,6 +143,7 @@ function transformImportExportDefault(paths: NodePath<any>[]) {
         if (specifier.local.name === 'default') {
           const exportIdentifier = t.identifier('__superjsonLocalExport');
           path.insertAfter(t.exportDefaultDeclaration(exportIdentifier));
+
           path.insertAfter(
             t.importDeclaration(
               [t.importDefaultSpecifier(exportIdentifier)],
@@ -219,6 +220,8 @@ function superJsonWithNext(): PluginObj {
           );
         });
 
+        let transformedOne = false;
+
         exportedPageProps.forEach((pageProp) => {
           if (!pageProp.node.source?.value) {
             return;
@@ -271,6 +274,7 @@ function superJsonWithNext(): PluginObj {
           });
 
           pageProp.remove();
+          transformedOne = true;
         });
 
         const unremovedNamedExportDeclarations = namedExportDeclarations.filter(
@@ -289,7 +293,6 @@ function superJsonWithNext(): PluginObj {
           }
         );
 
-        let transformedOne = false;
         unremovedNamedExportDeclarations.forEach((path) => {
           const found = transformPropGetters(path, (decl) => {
             return t.callExpression(addWithSuperJSONPropsImport(path), [
