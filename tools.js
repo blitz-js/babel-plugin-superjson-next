@@ -1,1 +1,1 @@
-module.exports = require("./dist/tools.js")
+module.exports = require('./dist/tools.js');

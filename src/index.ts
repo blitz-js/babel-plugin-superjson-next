@@ -247,7 +247,7 @@ function superJsonWithNext(): PluginObj {
             t.stringLiteral(pageProp.node.source.value)
           );
 
-          path.insertBefore(declaration);
+          pageProp.insertBefore(declaration);
 
           specifiers.forEach((foundExport) => {
             if (!foundExport) {
