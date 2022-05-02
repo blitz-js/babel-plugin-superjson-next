@@ -192,6 +192,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "dante01yoon",
+      "name": "Dante",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6510430?v=4",
+      "profile": "https://velog.io/@jay",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
