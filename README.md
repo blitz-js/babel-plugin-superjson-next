@@ -34,7 +34,6 @@ npm install babel-plugin-superjson-next
 ```
 
 Since this is a companion to [SuperJSON](https://github.com/blitz-js/superjson), 
-
 make sure it's also installed:
 
 `(If you use npm 7 or later, you can skip this since from npm v7 automatically installing peer dependencies)`
