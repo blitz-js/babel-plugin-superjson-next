@@ -1,5 +1,5 @@
 declare module '@babel/helper-module-imports' {
-  import { NodePath, types } from '@babel/core';
+  import type { NodePath, types } from '@babel/core';
 
   function addNamed(
     path: NodePath,

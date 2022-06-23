@@ -1,33 +1,9 @@
-import type { NodePath, PluginObj, PluginPass } from '@babel/core';
+import { NodePath, PluginObj, PluginPass, types as t } from '@babel/core';
 import { addNamed as addNamedImport } from '@babel/helper-module-imports';
-import {
-  arrayExpression,
-  callExpression,
-  ClassDeclaration,
-  classExpression,
-  ExportNamedDeclaration,
-  Expression,
-  FunctionDeclaration,
-  functionExpression,
-  isClassDeclaration,
-  isExportDefaultDeclaration,
-  isExportNamedDeclaration,
-  isFunctionDeclaration,
-  isIdentifier,
-  isVariableDeclaration,
-  stringLiteral,
-  variableDeclaration,
-  variableDeclarator,
-  importDeclaration,
-  importDefaultSpecifier,
-  importSpecifier,
-  identifier,
-  exportDefaultDeclaration,
-} from '@babel/types';
 import * as nodePath from 'path';
 
-function functionDeclarationToExpression(declaration: FunctionDeclaration) {
-  return functionExpression(
+function functionDeclarationToExpression(declaration: t.FunctionDeclaration) {
+  return t.functionExpression(
     declaration.id,
     declaration.params,
     declaration.body,
@@ -36,8 +12,8 @@ function functionDeclarationToExpression(declaration: FunctionDeclaration) {
   );
 }
 
-function classDeclarationToExpression(declaration: ClassDeclaration) {
-  return classExpression(
+function classDeclarationToExpression(declaration: t.ClassDeclaration) {
+  return t.classExpression(
     declaration.id,
     declaration.superClass,
     declaration.body,
@@ -62,13 +38,14 @@ function getFileName(state: PluginPass) {
 const functionsToReplace = ['getServerSideProps', 'getStaticProps'];
 
 function transformPropGetters(
-  path: NodePath<ExportNamedDeclaration>,
-  transform: (v: Expression) => Expression
+  path: NodePath<t.ExportNamedDeclaration>,
+  transform: (v: t.Expression) => t.Expression
 ): 'found' | undefined {
   const { node } = path;
 
-  if (isFunctionDeclaration(node.declaration)) {
+  if (t.isFunctionDeclaration(node.declaration)) {
     const { id: functionId } = node.declaration;
+
     if (!functionId) {
       return;
     }
@@ -77,8 +54,8 @@ function transformPropGetters(
       return;
     }
 
-    node.declaration = variableDeclaration('const', [
-      variableDeclarator(
+    node.declaration = t.variableDeclaration('const', [
+      t.variableDeclarator(
         functionId,
         transform(functionDeclarationToExpression(node.declaration))
       ),
@@ -87,10 +64,10 @@ function transformPropGetters(
     return 'found';
   }
 
-  if (isVariableDeclaration(node.declaration)) {
+  if (t.isVariableDeclaration(node.declaration)) {
     for (const declaration of node.declaration.declarations) {
       if (
-        isIdentifier(declaration.id) &&
+        t.isIdentifier(declaration.id) &&
         functionsToReplace.includes(declaration.id.name) &&
         declaration.init
       ) {
@@ -118,21 +95,21 @@ function addWithSuperJSONPageImport(path: NodePath<any>) {
 }
 
 function wrapExportDefaultDeclaration(path: NodePath<any>) {
-  function wrapInHOC(expr: Expression): Expression {
-    return callExpression(addWithSuperJSONPageImport(path), [expr]);
+  function wrapInHOC(expr: t.Expression): t.Expression {
+    return t.callExpression(addWithSuperJSONPageImport(path), [expr]);
   }
 
   const { node } = path;
 
   if (
-    isFunctionDeclaration(node.declaration) ||
-    isClassDeclaration(node.declaration)
+    t.isFunctionDeclaration(node.declaration) ||
+    t.isClassDeclaration(node.declaration)
   ) {
     if (node.declaration.id) {
       path.insertBefore(node.declaration);
       node.declaration = wrapInHOC(node.declaration.id);
     } else {
-      if (isFunctionDeclaration(node.declaration)) {
+      if (t.isFunctionDeclaration(node.declaration)) {
         node.declaration = wrapInHOC(
           functionDeclarationToExpression(node.declaration)
         );
@@ -161,17 +138,17 @@ const filesToSkip = ([] as string[]).concat(
  */
 function transformImportExportDefault(paths: NodePath<any>[]) {
   for (const path of paths) {
-    if (isExportNamedDeclaration(path)) {
+    if (t.isExportNamedDeclaration(path)) {
       for (const specifier of path.node.specifiers) {
         if (specifier.local.name === 'default') {
-          const exportIdentifier = identifier('__superjsonLocalExport');
-          path.insertAfter(exportDefaultDeclaration(exportIdentifier) as any);
+          const exportIdentifier = t.identifier('__superjsonLocalExport');
+          path.insertAfter(t.exportDefaultDeclaration(exportIdentifier));
 
           path.insertAfter(
-            importDeclaration(
-              [importDefaultSpecifier(exportIdentifier)],
+            t.importDeclaration(
+              [t.importDefaultSpecifier(exportIdentifier)],
               path.node.source
-            ) as any
+            )
           );
 
           path.node.specifiers.splice(
@@ -192,10 +169,16 @@ function shouldBeSkipped(filePath: string) {
   if (!filePath.includes('pages' + nodePath.sep)) {
     return true;
   }
+
   if (filePath.includes('pages' + nodePath.sep + 'api' + nodePath.sep)) {
     return true;
   }
+
   return filesToSkip.some((fileToSkip) => filePath.includes(fileToSkip));
+}
+
+export interface SuperJSONPluginOptions {
+  exclude?: string[];
 }
 
 function superJsonWithNext(): PluginObj {
@@ -203,9 +186,8 @@ function superJsonWithNext(): PluginObj {
     name: 'add superjson to pages with prop getters',
     visitor: {
       Program(path, state) {
-        const propsToBeExcluded = (state.opts as any).exclude as
-          | string[]
-          | undefined;
+        const { exclude: propsToBeExcluded = [] } =
+          state.opts as SuperJSONPluginOptions;
 
         const filePath =
           getFileName(state) ?? nodePath.join('pages', 'Default.js');
@@ -219,32 +201,104 @@ function superJsonWithNext(): PluginObj {
         const body = path.get('body');
 
         const exportDefaultDeclaration = body.find((path) =>
-          isExportDefaultDeclaration(path)
+          t.isExportDefaultDeclaration(path)
         );
+
         if (!exportDefaultDeclaration) {
           return;
         }
 
         const namedExportDeclarations = body
           .filter((path) => path.isExportNamedDeclaration())
-          .map((path) => path as NodePath<ExportNamedDeclaration>);
+          .map((path) => path as NodePath<t.ExportNamedDeclaration>);
 
-        const containsNextTag = namedExportDeclarations.some((path) => {
-          return (
-            isVariableDeclaration(path.node.declaration) &&
-            path.node.declaration.declarations.some(
-              (decl) => isIdentifier(decl.id) && decl.id.name.startsWith('__N_')
-            )
+        const exportedPageProps = namedExportDeclarations.filter((path) => {
+          return path.node.specifiers.some(
+            (specifier) =>
+              specifier.type === 'ExportSpecifier' &&
+              functionsToReplace.includes(specifier.local.name)
           );
         });
 
         let transformedOne = false;
-        namedExportDeclarations.forEach((path) => {
+
+        exportedPageProps.forEach((pageProp) => {
+          if (!pageProp.node.source?.value) {
+            return;
+          }
+
+          const specifiers = pageProp.node.specifiers
+            .filter((specifier): specifier is t.ExportSpecifier & {
+              exported: t.Identifier;
+            } => {
+              return specifier.exported.type === 'Identifier';
+            })
+            .map((specifier) => {
+              return {
+                name: specifier.exported.name,
+                path: pageProp as NodePath,
+              };
+            });
+
+          const declaration = t.importDeclaration(
+            specifiers.map((specifier) =>
+              t.importSpecifier(
+                t.identifier(specifier.name),
+                t.identifier(specifier.name)
+              )
+            ),
+            t.stringLiteral(pageProp.node.source.value)
+          );
+
+          path.get('body')[0].insertBefore(declaration);
+
+          specifiers.forEach((foundExport) => {
+            if (!foundExport) {
+              return;
+            }
+
+            // pageProp as NodePath, specifier.exported.name, ;
+
+            const declaration = t.exportNamedDeclaration(
+              t.variableDeclaration('const', [
+                t.variableDeclarator(
+                  t.identifier(foundExport.name),
+                  t.callExpression(addWithSuperJSONPropsImport(path), [
+                    t.identifier(foundExport.name),
+                  ])
+                ),
+              ])
+            );
+
+            foundExport.path.insertAfter(declaration);
+          });
+
+          pageProp.remove();
+          transformedOne = true;
+        });
+
+        const unremovedNamedExportDeclarations = namedExportDeclarations.filter(
+          (e) => !e.removed
+        );
+
+        const containsNextTag = unremovedNamedExportDeclarations.some(
+          (path) => {
+            return (
+              t.isVariableDeclaration(path.node.declaration) &&
+              path.node.declaration.declarations.some(
+                (decl) =>
+                  t.isIdentifier(decl.id) && decl.id.name.startsWith('__N_')
+              )
+            );
+          }
+        );
+
+        unremovedNamedExportDeclarations.forEach((path) => {
           const found = transformPropGetters(path, (decl) => {
-            return callExpression(addWithSuperJSONPropsImport(path), [
+            return t.callExpression(addWithSuperJSONPropsImport(path), [
               decl,
-              arrayExpression(
-                propsToBeExcluded?.map((prop) => stringLiteral(prop))
+              t.arrayExpression(
+                propsToBeExcluded.map((prop) => t.stringLiteral(prop))
               ),
             ]);
           });
