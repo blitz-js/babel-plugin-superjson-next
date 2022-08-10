@@ -3,6 +3,7 @@ import { addNamed as addNamedImport } from '@babel/helper-module-imports';
 import {
   arrayExpression,
   callExpression,
+  exportDefaultSpecifier,
   ClassDeclaration,
   classExpression,
   ExportNamedDeclaration,
@@ -20,9 +21,9 @@ import {
   variableDeclarator,
   importDeclaration,
   importDefaultSpecifier,
-  importSpecifier,
   identifier,
   exportDefaultDeclaration,
+  Program,
 } from '@babel/types';
 import * as nodePath from 'path';
 
@@ -129,8 +130,11 @@ function wrapExportDefaultDeclaration(path: NodePath<any>) {
     isClassDeclaration(node.declaration)
   ) {
     if (node.declaration.id) {
-      path.insertBefore(node.declaration);
-      node.declaration = wrapInHOC(node.declaration.id);
+      path.replaceInline(node.declaration);
+      (path.parentPath as NodePath<Program>).pushContainer(
+        'body',
+        exportDefaultDeclaration(wrapInHOC(node.declaration.id)) as any
+      );
     } else {
       if (isFunctionDeclaration(node.declaration)) {
         node.declaration = wrapInHOC(
