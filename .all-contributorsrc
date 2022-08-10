@@ -201,6 +201,17 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Haberkamp",
+      "name": "Nils Haberkamp",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35109813?v=4",
+      "profile": "https://github.com/Haberkamp",
+      "contributions": [
+        "code",
+        "plugin",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
