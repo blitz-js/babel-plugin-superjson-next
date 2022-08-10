@@ -11,7 +11,7 @@
 
 <p align="center">
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-20-orange.svg?style=flat-square" alt="All Contributors"/></a>
+<a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square" alt="All Contributors"/></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <a href="https://www.npmjs.com/package/babel-plugin-superjson-next">
     <img alt="npm" src="https://img.shields.io/npm/v/babel-plugin-superjson-next" />
@@ -118,6 +118,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://vincas.dev"><img src="https://avatars.githubusercontent.com/u/944727?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vincas Stonys</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Avincaslt" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/felipeptcho"><img src="https://avatars.githubusercontent.com/u/656062?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Felipe Lima</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=felipeptcho" title="Code">💻</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3Afelipeptcho" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://velog.io/@jay"><img src="https://avatars.githubusercontent.com/u/6510430?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Dante</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=dante01yoon" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Haberkamp"><img src="https://avatars.githubusercontent.com/u/35109813?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nils Haberkamp</b></sub></a><br /><a href="https://github.com/blitz-js/babel-plugin-superjson-next/commits?author=Haberkamp" title="Code">💻</a> <a href="#plugin-Haberkamp" title="Plugin/utility libraries">🔌</a> <a href="https://github.com/blitz-js/babel-plugin-superjson-next/issues?q=author%3AHaberkamp" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
