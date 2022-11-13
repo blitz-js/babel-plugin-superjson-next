@@ -3,7 +3,7 @@ import { addNamed as addNamedImport } from '@babel/helper-module-imports';
 import {
   arrayExpression,
   callExpression,
-  exportDefaultSpecifier,
+  exportNamedDeclaration,
   ClassDeclaration,
   classExpression,
   ExportNamedDeclaration,
@@ -192,6 +192,52 @@ function transformImportExportDefault(paths: NodePath<any>[]) {
   }
 }
 
+/**
+ * transforms `export { getServerSideProps }` import & export line
+ */
+function transformDatafetcherNamedImportExports(
+  paths: NodePath<any>[],
+  dataFetcherName: 'getServerSideProps' | 'getStaticProps'
+) {
+  for (const path of paths) {
+    if (isExportNamedDeclaration(path)) {
+      for (const specifier of path.node.specifiers) {
+        if (specifier.local.name === dataFetcherName) {
+          paths.forEach((path) =>
+            path.traverse({
+              ImportSpecifier(specifier) {
+                if (specifier.node.imported.name === dataFetcherName) {
+                  specifier.node.local.name = `_${dataFetcherName}`;
+                }
+              },
+            })
+          );
+
+          path.insertAfter(
+            exportNamedDeclaration(
+              variableDeclaration('const', [
+                variableDeclarator(
+                  identifier(dataFetcherName),
+                  identifier(`_${dataFetcherName}`)
+                ),
+              ])
+            ) as any
+          );
+
+          path.node.specifiers.splice(
+            path.node.specifiers.indexOf(specifier),
+            1
+          );
+
+          if (path.node.specifiers.length === 0) {
+            path.remove();
+          }
+        }
+      }
+    }
+  }
+}
+
 function shouldBeSkipped(filePath: string) {
   if (!filePath.includes('pages' + nodePath.sep)) {
     return true;
@@ -219,6 +265,8 @@ function superJsonWithNext(): PluginObj {
         }
 
         transformImportExportDefault(path.get('body'));
+        transformDatafetcherNamedImportExports(path.get('body'), 'getServerSideProps');
+        transformDatafetcherNamedImportExports(path.get('body'), 'getStaticProps');
 
         const body = path.get('body');
 
