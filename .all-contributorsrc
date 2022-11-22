@@ -212,6 +212,15 @@
         "plugin",
         "bug"
       ]
+    },
+    {
+      "login": "florian-milky",
+      "name": "florian-milky",
+      "avatar_url": "https://avatars.githubusercontent.com/u/61967614?v=4",
+      "profile": "https://github.com/florian-milky",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
