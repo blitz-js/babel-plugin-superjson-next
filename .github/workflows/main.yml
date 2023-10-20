@@ -9,7 +9,7 @@ jobs:
           - windows-latest
           - ubuntu-latest
         node:
-          - 14
+          - 20
     runs-on: ${{ matrix.os }}
 
     steps:
