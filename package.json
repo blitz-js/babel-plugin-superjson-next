@@ -1,14 +1,18 @@
 {
   "version": "0.4.5",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./tools": "./dist/tools.js"
+  },
   "files": [
-    "dist",
-    "tools.js"
+    "dist"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=16"
   },
   "scripts": {
     "build": "tsc",
@@ -37,7 +41,6 @@
     "url": "https://github.com/blitz-js/babel-plugin-superjson-next/issues"
   },
   "homepage": "https://github.com/blitz-js/babel-plugin-superjson-next#readme",
-  "module": "dist/babel-plugin-superjson-next.esm.js",
   "devDependencies": {
     "@babel/core": "^7.13.16",
     "@testing-library/react-native": "^7.2.0",
@@ -60,7 +63,7 @@
   },
   "peerDependencies": {
     "next": ">=9.0.0",
-    "superjson": "1.x"
+    "superjson": "2.x"
   },
   "dependencies": {
     "@babel/helper-module-imports": "^7.13.12",
